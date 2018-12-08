@@ -6,6 +6,9 @@ import {Meteor} from 'meteor/meteor';
 import { Tasks } from '../api/tasks.js';
 import Task from './Task.js';
 import AccountsUIWrapper from './AccountsUIWrapper';
+import { bindActionCreators } from 'redux';
+import getTodos  from './actions/todos-action';
+import { connect } from 'react-redux';
 
 // App component - represents the whole app
 class App extends Component {
@@ -16,6 +19,12 @@ class App extends Component {
     this.state = {
       hideCompleted: false,
     };
+  }
+
+  componentDidMount() {
+    const { todosActions } = this.props;
+
+    todosActions.getTodos();
   }
 
   toggleHideCompleted() {
@@ -56,6 +65,7 @@ class App extends Component {
   }
 
   render() {
+    console.log(this.props)
     return (
       <div className="container">
         <header>
@@ -93,12 +103,32 @@ class App extends Component {
   }
 }
 
+function mapStateToProps(state) {
+  console.log(state)
+
+  return {
+    tasks: state.todos.tasks
+  }
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    todosActions: bindActionCreators(getTodos, dispatch)
+  }
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(App);
+
+/*
 export default withTracker(() => {
-  Meteor.subscribe('tasks');
+  Meteor.subscribe('tasks.fetch');
 
   return {
     tasks: Tasks.find({}, { sort: { createdAt: -1 } }).fetch(),
     incompleteCount: Tasks.find({ checked: { $ne: true } }).count(),
     currentUser: Meteor.user(),
   };
-})(App);
+})(App);*/

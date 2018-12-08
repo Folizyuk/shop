@@ -19,6 +19,22 @@ if (Meteor.isServer) {
 }
 
 Meteor.methods({
+  'tasks.fetch'() {
+    // Make sure the user is logged in before inserting a task
+    if (!this.userId) {
+      throw new Meteor.Error('not-authorized');
+    }
+
+    const tasks = Tasks.find({
+      $or: [
+        { private: { $ne: true } },
+        { owner: this.userId },
+      ],
+    });
+
+    console.log(tasks.fetch())
+    return tasks.fetch();
+  },
   'tasks.insert'(text) {
     check(text, String);
 
