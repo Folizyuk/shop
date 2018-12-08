@@ -4,12 +4,14 @@ import { STOP_SUBSCRIPTION } from 'meteor-redux-middlewares';
 const initialState = {
   ready: false,
   subscriptionStop: false,
+  incompleteCount: 0,
   tasks: []
 };
 
 function tasks(state = initialState, action) {
   switch (action.type) {
     case TASKS_SUBSCRIPTION_READY:
+      if (state.ready === action.payload.ready) return state;
       return {
         ...state,
         ready: action.payload.ready
@@ -17,7 +19,8 @@ function tasks(state = initialState, action) {
     case TASKS_SUBSCRIPTION_CHANGED:
       return {
         ...state,
-        tasks: [...action.payload],
+        tasks: [...action.payload.tasks],
+        incompleteCount: action.payload.incompleteCount,
         loaded: true
       };
     case STOP_SUBSCRIPTION:

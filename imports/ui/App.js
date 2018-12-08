@@ -50,7 +50,7 @@ class App extends Component {
   }
 
   renderTasks() {
-    let filteredTasks = this.props.tasks;
+    let filteredTasks = this.props.tasks.tasks;
     if (this.state.hideCompleted) {
       filteredTasks = filteredTasks.filter(task => !task.checked);
     }
@@ -73,7 +73,7 @@ class App extends Component {
     return (
       <div className="container">
         <header>
-          <h1>Todo List ({this.props.incompleteCount})</h1>
+          <h1>Todo List ({this.props.tasks.incompleteCount})</h1>
 
 
           <label className="hide-completed">
@@ -88,7 +88,7 @@ class App extends Component {
 
           <AccountsUIWrapper />
 
-          { this.props.currentUser ?
+          { this.props.tasks.ready ?
             <form className="new-task" onSubmit={this.handleSubmit.bind(this)} >
               <input
                 type="text"
@@ -125,7 +125,7 @@ const mapStateToProps = state => {
   console.log(state);
 
   return {
-    tasks: state.tasks.tasks
+    tasks: state.tasks,
   }
 };
 
