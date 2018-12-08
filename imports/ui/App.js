@@ -7,8 +7,10 @@ import { Tasks } from '../api/tasks.js';
 import Task from './Task.js';
 import AccountsUIWrapper from './AccountsUIWrapper';
 import { bindActionCreators } from 'redux';
-import {getTasks}  from './actions/tasks-action';
+import { getTasks, TASKS } from './actions/tasks-action';
 import { connect } from 'react-redux';
+
+import { stopSubscription } from 'meteor-redux-middlewares';
 
 // App component - represents the whole app
 class App extends Component {
@@ -23,6 +25,10 @@ class App extends Component {
 
   componentDidMount() {
     this.props.loadTasks();
+  }
+
+  componentWillUnmount() {
+    this.props.stopTasksSubscription();
   }
 
   toggleHideCompleted() {
@@ -126,6 +132,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => ({
   loadTasks: () => dispatch(getTasks()),
+  stopTasksSubscription: () => { dispatch(stopSubscription(TASKS)); },
   //loadTasks: bindActionCreators(getTasks, dispatch)
 });
 
