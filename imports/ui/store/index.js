@@ -26,6 +26,10 @@ import { Tracker } from 'meteor/tracker';
 import createReactiveMiddlewares from 'meteor-redux-middlewares';
 import { applyMiddleware, createStore, compose } from 'redux';
 
+import createSagaMiddleware from 'redux-saga';
+import rootSaga from './../saga';
+const sagaMiddleware = createSagaMiddleware();
+
 // Of course, you can use other middlewares as well
 import thunk from 'redux-thunk';
 
@@ -47,8 +51,10 @@ const {
 } = createReactiveMiddlewares(Tracker);
 
 const store = createStore(appReducer, compose(
-  applyMiddleware(sources, subscriptions, thunk),
+  applyMiddleware(sources, subscriptions, sagaMiddleware),
   ...enhancers,
 ));
+
+sagaMiddleware.run(rootSaga);
 
 export default store;

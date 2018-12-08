@@ -43,7 +43,7 @@ Meteor.methods({
       throw new Meteor.Error('not-authorized');
     }
 
-    Tasks.insert({
+    return Tasks.insert({
       text,
       createdAt: new Date(),
       owner: this.userId,

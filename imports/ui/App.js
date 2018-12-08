@@ -1,13 +1,10 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import { withTracker } from 'meteor/react-meteor-data';
-import {Meteor} from 'meteor/meteor';
 
-import { Tasks } from '../api/tasks.js';
 import Task from './Task.js';
 import AccountsUIWrapper from './AccountsUIWrapper';
 import { bindActionCreators } from 'redux';
-import { getTasks, TASKS } from './actions/tasks-action';
+import { addTasks, getTasks, TASKS } from './actions/tasks-action';
 import { connect } from 'react-redux';
 
 import { stopSubscription } from 'meteor-redux-middlewares';
@@ -24,7 +21,7 @@ class App extends Component {
   }
 
   componentDidMount() {
-    this.props.loadTasks();
+    this.props.getTasks();
   }
 
   componentWillUnmount() {
@@ -43,7 +40,7 @@ class App extends Component {
     // Find the text field via the React ref
     const text = ReactDOM.findDOMNode(this.refs.textInput).value.trim();
 
-    Meteor.call('tasks.insert', text);
+    this.props.addTasks(text);
 
     // Clear form
     ReactDOM.findDOMNode(this.refs.textInput).value = '';
@@ -69,7 +66,6 @@ class App extends Component {
   }
 
   render() {
-    console.log(this.props)
     return (
       <div className="container">
         <header>
@@ -107,47 +103,19 @@ class App extends Component {
   }
 }
 
-/*function mapStateToProps(state) {
-  console.log(state)
-
-  return {
-    tasks: state.todos.tasks
-  }
-}
-
-function mapDispatchToProps(dispatch) {
-  return {
-    tasksActions: bindActionCreators(getTasks, dispatch)
-  }
-}*/
-
 const mapStateToProps = state => {
-  console.log(state);
-
   return {
     tasks: state.tasks,
   }
 };
 
-
-const mapDispatchToProps = dispatch => ({
-  loadTasks: () => dispatch(getTasks()),
-  stopTasksSubscription: () => { dispatch(stopSubscription(TASKS)); },
-  //loadTasks: bindActionCreators(getTasks, dispatch)
-});
+const mapDispatchToProps = dispatch => bindActionCreators({
+  getTasks,
+  stopTasksSubscription: stopSubscription(TASKS),
+  addTasks
+}, dispatch);
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
 )(App);
-
-/*
-export default withTracker(() => {
-  Meteor.subscribe('tasks.fetch');
-
-  return {
-    tasks: Tasks.find({}, { sort: { createdAt: -1 } }).fetch(),
-    incompleteCount: Tasks.find({ checked: { $ne: true } }).count(),
-    currentUser: Meteor.user(),
-  };
-})(App);*/
