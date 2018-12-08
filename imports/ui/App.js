@@ -7,7 +7,7 @@ import { Tasks } from '../api/tasks.js';
 import Task from './Task.js';
 import AccountsUIWrapper from './AccountsUIWrapper';
 import { bindActionCreators } from 'redux';
-import getTodos  from './actions/todos-action';
+import {getTasks}  from './actions/tasks-action';
 import { connect } from 'react-redux';
 
 // App component - represents the whole app
@@ -22,9 +22,7 @@ class App extends Component {
   }
 
   componentDidMount() {
-    const { todosActions } = this.props;
-
-    todosActions.getTodos();
+    this.props.loadTasks();
   }
 
   toggleHideCompleted() {
@@ -103,7 +101,7 @@ class App extends Component {
   }
 }
 
-function mapStateToProps(state) {
+/*function mapStateToProps(state) {
   console.log(state)
 
   return {
@@ -113,9 +111,23 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    todosActions: bindActionCreators(getTodos, dispatch)
+    tasksActions: bindActionCreators(getTasks, dispatch)
   }
-}
+}*/
+
+const mapStateToProps = state => {
+  console.log(state);
+
+  return {
+    tasks: state.tasks.tasks
+  }
+};
+
+
+const mapDispatchToProps = dispatch => ({
+  loadTasks: () => dispatch(getTasks()),
+  //loadTasks: bindActionCreators(getTasks, dispatch)
+});
 
 export default connect(
   mapStateToProps,
