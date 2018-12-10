@@ -1,16 +1,16 @@
 import { call, put, takeEvery, takeLatest } from 'redux-saga/effects';
 import * as types from './../actions/actionTypes';
 
-function* addTask(action) {
+function* addProduct(action) {
   try {
-    const user = yield Meteor.callPromise('tasks.insert', action.payload);
+    const user = yield Meteor.callPromise('products.insert', action.payload);
   } catch (e) {
     console.log('error', e);
   }
 }
 
 function* tasksSaga() {
-  yield takeLatest(types.ADD_TASK_REQUEST, addTask);
+  yield takeLatest(types.ADD_PRODUCT_REQUEST, addProduct);
 }
 
 export default tasksSaga;

@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 
-import Task from './Task.js';
 import AccountsUIWrapper from './AccountsUIWrapper';
 import { bindActionCreators } from 'redux';
-import { addTasks, getTasks, TASKS } from './actions/tasks-action';
+import { getProducts, PRODUCTS } from './actions/products-action';
 import { connect } from 'react-redux';
 
 import { stopSubscription } from 'meteor-redux-middlewares';
+import './assets/style.css';
 
 // App component - represents the whole app
 class App extends Component {
@@ -21,83 +21,33 @@ class App extends Component {
   }
 
   componentDidMount() {
-    this.props.getTasks();
+    this.props.getProducts();
   }
 
   componentWillUnmount() {
     this.props.stopTasksSubscription();
   }
 
-  toggleHideCompleted() {
-    this.setState({
-      hideCompleted: !this.state.hideCompleted,
-    });
-  }
-
-  handleSubmit(event) {
-    event.preventDefault();
-
-    // Find the text field via the React ref
-    const text = ReactDOM.findDOMNode(this.refs.textInput).value.trim();
-
-    this.props.addTasks(text);
-
-    // Clear form
-    ReactDOM.findDOMNode(this.refs.textInput).value = '';
-  }
-
-  renderTasks() {
-    let filteredTasks = this.props.tasks.tasks;
-    if (this.state.hideCompleted) {
-      filteredTasks = filteredTasks.filter(task => !task.checked);
-    }
-    return filteredTasks.map((task) => {
-      const currentUserId = this.props.currentUser && this.props.currentUser._id;
-      const showPrivateButton = task.owner === currentUserId;
-
-      return (
-        <Task
-          key={task._id}
-          task={task}
-          showPrivateButton={showPrivateButton}
-        />
-      );
-    });
-  }
-
   render() {
+    console.log(this.props);
     return (
       <div className="container">
-        <header>
-          <h1>Todo List ({this.props.tasks.incompleteCount})</h1>
-
-
-          <label className="hide-completed">
-            <input
-              type="checkbox"
-              readOnly
-              checked={this.state.hideCompleted}
-              onClick={this.toggleHideCompleted.bind(this)}
-            />
-            Hide Completed Tasks
-          </label>
-
-          <AccountsUIWrapper />
-
-          { this.props.tasks.ready ?
-            <form className="new-task" onSubmit={this.handleSubmit.bind(this)} >
-              <input
-                type="text"
-                ref="textInput"
-                placeholder="Type to add new tasks"
-              />
-            </form> : ''
+        <div className="product-list">
+          {
+            this.props.products.products.map(item => {
+              return (
+                <div className="product-item" key={item.id}>
+                  <h3>{item.name}</h3>
+                  <img src={item.image}/>
+                  <div className="product-item--footer">
+                    <div className="price">100$</div>
+                    <button className="btn-primary">buy</button>
+                  </div>
+                </div>
+              )
+            })
           }
-        </header>
-
-        <ul>
-          {this.renderTasks()}
-        </ul>
+        </div>
       </div>
     );
   }
@@ -105,14 +55,13 @@ class App extends Component {
 
 const mapStateToProps = state => {
   return {
-    tasks: state.tasks,
+    products: state.products,
   }
 };
 
 const mapDispatchToProps = dispatch => bindActionCreators({
-  getTasks,
-  stopTasksSubscription: stopSubscription(TASKS),
-  addTasks
+  getProducts,
+  stopTasksSubscription: stopSubscription(PRODUCTS),
 }, dispatch);
 
 export default connect(

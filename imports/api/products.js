@@ -2,22 +2,22 @@ import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
 import { check } from 'meteor/check';
 
-export const Tasks = new Mongo.Collection('tasks');
-
+export const Products = new Mongo.Collection('products');
 
 if (Meteor.isServer) {
   // This code only runs on the server
-  // Only publish tasks that are public or belong to the current user
-  Meteor.publish('tasks', function tasksPublication() {
-    return Tasks.find({
-      $or: [
-        { private: { $ne: true } },
-        { owner: this.userId },
-      ],
-    });
+  Meteor.publish('products', function productPublication() {
+    return Products.find();
   });
 }
 
+Meteor.methods({
+  'products'() {
+    return Products.find({});
+  }
+});
+
+/*
 Meteor.methods({
   'tasks.fetch'() {
     // Make sure the user is logged in before inserting a task
@@ -84,4 +84,4 @@ Meteor.methods({
 
     Tasks.update(taskId, { $set: { private: setToPrivate } });
   },
-});
+});*/
