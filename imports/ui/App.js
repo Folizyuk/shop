@@ -7,6 +7,8 @@ import { getProducts, PRODUCTS } from './actions/products-action';
 import { connect } from 'react-redux';
 
 import { stopSubscription } from 'meteor-redux-middlewares';
+
+import routes from './routes';
 import './assets/style.css';
 
 // App component - represents the whole app
@@ -51,6 +53,18 @@ class App extends Component {
       </div>
     );
   }
+
+  /*render() {
+    return (
+      <Layout>
+        <ConnectedRouter history={this.props.history}>
+          {routes}
+        </ConnectedRouter>
+        <RootModal/>
+        <LoadingSpinner/>
+      </Layout>
+    )
+  }*/
 }
 
 const mapStateToProps = state => {
