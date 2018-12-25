@@ -32,7 +32,6 @@ Meteor.methods({
       ],
     });
 
-    console.log(tasks.fetch())
     return tasks.fetch();
   },
   'tasks.insert'(text) {

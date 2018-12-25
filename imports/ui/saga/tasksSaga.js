@@ -5,7 +5,7 @@ function* addProduct(action) {
   try {
     const user = yield Meteor.callPromise('products.insert', action.payload);
   } catch (e) {
-    console.log('error', e);
+    console.warn('error', e);
   }
 }
 

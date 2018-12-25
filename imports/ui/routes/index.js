@@ -1,17 +1,14 @@
 import React from 'react';
 import { Route, Switch } from 'react-router';
-import Home from '../components/Home/';
-import About from '../components/About/';
+import Home from '../components/Home';
+import Admin from '../components/Admin';
 
 const mainRoutes = (
   <div>
-    <main>
-      <Switch>
-        <Route exact path='/' component={Home}/>
-        <Route path='/admin' component={About}/>
-      </Switch>
-    </main>
-    <Footer/>
+    <Switch>
+      <Route exact path='/' component={Home}/>
+      <Route path='/admin' component={Admin}/>
+    </Switch>
   </div>
 );
 
