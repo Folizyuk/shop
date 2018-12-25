@@ -28,6 +28,13 @@ sagaMiddleware.run(rootSaga);
 
 export default store;*/
 
+import { Tracker } from 'meteor/tracker';
+import createReactiveMiddlewares from 'meteor-redux-middlewares';
+
+const {
+  sources,
+  subscriptions,
+} = createReactiveMiddlewares(Tracker);
 
 /*REDUCER*/
 import persistReducer from '../reducers';
@@ -50,7 +57,7 @@ const devToolsExtension = window.__REDUX_DEVTOOLS_EXTENSION__;
 enhancers.push(devToolsExtension());
 
 const middleware = [
-  sagaMiddleware,
+  sources, subscriptions, sagaMiddleware,
   routerMiddleware(history) // for dispatching history actions
 ];
 

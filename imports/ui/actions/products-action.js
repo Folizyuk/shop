@@ -9,9 +9,6 @@ export const PRODUCTS_SUBSCRIPTION_CHANGED = 'PRODUCTS_SUBSCRIPTION_CHANGED';
 export const PRODUCTS = 'products';
 
 export const getProducts = () => {
-  const a = Products.find().fetch();
-  console.log('a', a)
-  console.log('getProducts')
   return startSubscription({
     key: PRODUCTS,
     get: () => {
