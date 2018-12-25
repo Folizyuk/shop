@@ -7,13 +7,17 @@ import { PersistGate } from "redux-persist/integration/react";
 import { store, persistor, history } from "../imports/ui/store";
 import '../imports/startup/accounts-config.js';
 
-Meteor.startup(() => {
+const rrr = <Provider store={store}>
+    <PersistGate loading={null} persistor={persistor}>
+      <App history={history}/>
+    </PersistGate>
+  </Provider>;
+
+Meteor.startup(function () {
+  console.log(store)
+
   render(
-    <Provider store={store}>
-      <PersistGate persistor={persistor}>
-        <App history={history}/>
-      </PersistGate>
-    </Provider>,
+    rrr,
     document.getElementById('myid')
   );
 });

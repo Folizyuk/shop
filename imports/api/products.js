@@ -13,6 +13,8 @@ if (Meteor.isServer) {
 
 Meteor.methods({
   'products'() {
+    const p = Products.find({});
+    console.log('p', p);
     return Products.find({});
   }
 });

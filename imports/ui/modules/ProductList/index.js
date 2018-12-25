@@ -10,6 +10,7 @@ import Product from './ProductItem';
 class ProductList extends Component {
 
   componentDidMount() {
+    console.log('start')
     this.props.getProducts();
   }
 
