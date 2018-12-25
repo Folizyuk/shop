@@ -1,16 +1,18 @@
 import React, { Component } from 'react';
-import ProductList from './modules/ProductList';
+
+import { ConnectedRouter } from 'connected-react-router';
+import routes from './routes';
 
 import './assets/style.css';
 
-// App component - represents the whole app
-class App extends Component {
-
-  render() {
-    return (
-      <ProductList></ProductList>
-    );
-  }
-}
+const App = ({ history }) => {
+  return (
+    <ConnectedRouter history={history}>
+      <div className="App">
+        { routes }
+      </div>
+    </ConnectedRouter>
+  )
+};
 
 export default App;

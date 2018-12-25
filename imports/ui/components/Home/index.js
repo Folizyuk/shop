@@ -1,5 +1,9 @@
 import React, { Component } from 'react';
 
+import ProductList from '../../modules/ProductList';
+
 export default Home = () => (
-  <div>home page</div>
+  <div>
+    <ProductList />
+  </div>
 );
