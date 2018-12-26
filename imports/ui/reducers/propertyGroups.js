@@ -8,7 +8,7 @@ import { STOP_SUBSCRIPTION } from 'meteor-redux-middlewares';
 const initialState = {
   ready: false,
   subscriptionStop: false,
-  propertyGroups: []
+  data: []
 };
 
 function propertyGroups(state = initialState, action) {
@@ -22,7 +22,7 @@ function propertyGroups(state = initialState, action) {
     case PROPERTY_GROUPS_SUBSCRIPTION_CHANGED:
       return {
         ...state,
-        propertyGroups: [...action.payload.propertyGroups],
+        data: [...action.payload.propertyGroups],
       };
     case STOP_SUBSCRIPTION:
       return action.payload === PROPERTY_GROUPS

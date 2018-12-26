@@ -22,7 +22,7 @@ class ProductList extends Component {
       <div className="container">
         <div className="product-list">
           {
-            this.props.products.products.map(item => <Product product={item} key={item._id}/>)
+            this.props.products.map(item => <Product product={item} key={item._id}/>)
           }
         </div>
       </div>
@@ -32,7 +32,7 @@ class ProductList extends Component {
 
 const mapStateToProps = state => {
   return {
-    products: state.products,
+    products: state.products.data,
   }
 };
 

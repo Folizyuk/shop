@@ -4,7 +4,7 @@ import { STOP_SUBSCRIPTION } from 'meteor-redux-middlewares';
 const initialState = {
   ready: false,
   subscriptionStop: false,
-  products: []
+  data: []
 };
 
 function products(state = initialState, action) {
@@ -18,7 +18,7 @@ function products(state = initialState, action) {
     case PRODUCTS_SUBSCRIPTION_CHANGED:
       return {
         ...state,
-        products: [...action.payload.products],
+        data: [...action.payload.products],
         incompleteCount: action.payload.incompleteCount,
       };
     case STOP_SUBSCRIPTION:

@@ -16,14 +16,23 @@ class AdminPropertyGroups extends Component {
 
   render() {
     return (
-      <div>AdminPropertyGroups</div>
+      <div>
+        AdminPropertyGroups
+        <ul>
+          {
+            this.props.propertyGroups.map(item => {
+              return <li key={item._id}>{item.title}</li>
+            })
+          }
+        </ul>
+      </div>
     )
   }
 }
 
 const mapStateToProps = state => {
   return {
-    propertyGroups: state.propertyGroups,
+    propertyGroups: state.propertyGroups.data,
   }
 };
 
