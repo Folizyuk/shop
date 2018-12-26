@@ -1,4 +1,4 @@
-import { PRODUCTS, PRODUCTS_SUBSCRIPTION_CHANGED, PRODUCTS_SUBSCRIPTION_READY } from '../actions/products-action';
+import { PRODUCTS, PRODUCTS_SUBSCRIPTION_CHANGED, PRODUCTS_SUBSCRIPTION_READY } from '../actions/actionTypes';
 import { STOP_SUBSCRIPTION } from 'meteor-redux-middlewares';
 
 const initialState = {

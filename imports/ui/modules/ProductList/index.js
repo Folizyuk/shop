@@ -1,20 +1,20 @@
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { stopSubscription } from 'meteor-redux-middlewares';
+
 //import AccountsUIWrapper from './AccountsUIWrapper';
 
-import { getProducts, PRODUCTS } from '../../actions/products-action';
+import { subscribeProducts, unsubscribeProducts } from '../../actions/products-action';
 import Product from './ProductItem';
 
 class ProductList extends Component {
 
   componentDidMount() {
-    this.props.getProducts();
+    this.props.subscribeProducts();
   }
 
   componentWillUnmount() {
-    this.props.stopTasksSubscription();
+    this.props.unsubscribeProducts();
   }
 
   render() {
@@ -37,8 +37,8 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = dispatch => bindActionCreators({
-  getProducts,
-  stopTasksSubscription: stopSubscription(PRODUCTS),
+  subscribeProducts,
+  unsubscribeProducts
 }, dispatch);
 
 export default connect(

@@ -14,8 +14,6 @@ const rrr = <Provider store={store}>
   </Provider>;
 
 Meteor.startup(function () {
-  console.log(store)
-
   render(
     rrr,
     document.getElementById('myid')
