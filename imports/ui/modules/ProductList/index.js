@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 //import AccountsUIWrapper from './AccountsUIWrapper';
 
-import { subscribeProducts, unsubscribeProducts } from '../../actions/products-action';
+import { subscribeProducts, unsubscribeProducts } from '../../actions/actionCreators';
 import Product from './ProductItem';
 
 class ProductList extends Component {

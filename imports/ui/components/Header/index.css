@@ -1,0 +1,10 @@
+header {
+  height: 30px;
+  background: #ccc;
+  padding: 10px;
+}
+
+header a {
+  display: inline-block;
+  padding: 5px;
+}
