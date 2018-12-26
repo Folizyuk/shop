@@ -1,5 +1,6 @@
 import { combineReducers } from 'redux'
-import products from './products'
+import products from './products';
+import propertyGroups from './propertyGroups';
 
 /*PERSIST*/
 import { persistReducer } from 'redux-persist'
@@ -9,11 +10,12 @@ import storageSession from 'redux-persist/lib/storage' // defaults to localStora
 const rootPersistConfig = {
   key: 'root',
   storage: storageSession,
-  blacklist: ['products'] // list of components which will not be persisted
+  blacklist: ['products', 'propertyGroups'] // list of components which will not be persisted
 };
 
 const rootReducer = combineReducers ({
-  products
+  products,
+  propertyGroups
 });
 
 export default persistReducer(rootPersistConfig, rootReducer);

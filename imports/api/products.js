@@ -1,12 +1,13 @@
 import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
 import { check } from 'meteor/check';
+import * as types from '../ui/actions/actionTypes';
 
 export const Products = new Mongo.Collection('products');
 
 if (Meteor.isServer) {
   // This code only runs on the server
-  Meteor.publish('products', function productPublication() {
+  Meteor.publish(types.PRODUCTS, function productPublication() {
     return Products.find();
   });
 }

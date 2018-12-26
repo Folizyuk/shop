@@ -4,6 +4,8 @@ import { Products } from '/imports/api/products';
 
 import * as types from './actionTypes';
 
+/** PRODUCTS */
+
 export const subscribeProducts = () => {
   return startSubscription({
     key: types.PRODUCTS,
