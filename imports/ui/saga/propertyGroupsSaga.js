@@ -19,9 +19,19 @@ function* removePropertyGroup(action) {
   }
 }
 
+function* updatePropertyGroup(action) {
+  const { id, title } = action.payload;
+  try {
+    yield Meteor.callPromise('propertyGroups.update', {id, title});
+  } catch (e) {
+    console.warn('error', e);
+  }
+}
+
 function* propertyGroupsSaga() {
   yield takeLatest(types.ADD_PROPERTY_GROUP_REQUEST, createPropertyGroup);
   yield takeLatest(types.DELETE_PROPERTY_GROUP_REQUEST, removePropertyGroup);
+  yield takeLatest(types.UPDATE_PROPERTY_GROUP_REQUEST, updatePropertyGroup);
 }
 
 export default propertyGroupsSaga;

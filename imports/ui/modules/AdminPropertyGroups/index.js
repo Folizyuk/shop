@@ -6,8 +6,10 @@ import {
   subscribePropertyGroups,
   unsubscribePropertyGroups,
   addPropertyGroup,
-  deletePropertyGroup
+  deletePropertyGroup,
+  updatePropertyGroup
 } from '../../actions/propertyGroupsCreators';
+import AdminPropertyGroupItem from './AdminPropertyGroupItem';
 
 class AdminPropertyGroups extends Component {
 
@@ -29,12 +31,9 @@ class AdminPropertyGroups extends Component {
   };
 
   onAddPropertyGroup = e => {
+    if (!this.state.title.trim()) return;
     this.props.addPropertyGroup(this.state.title);
     this.setState({title: ''});
-  };
-
-  deletePropertyGroup = id => {
-    this.props.deletePropertyGroup(id);
   };
 
   render() {
@@ -48,10 +47,12 @@ class AdminPropertyGroups extends Component {
         <ul>
           {
             this.props.propertyGroups.map(item => (
-              <li key={item._id}>
-                <span>{item.title}</span>
-                <button onClick={() => this.deletePropertyGroup(item._id)}>X</button>
-              </li>
+              <AdminPropertyGroupItem
+                key={item._id}
+                item={item}
+                deletePropertyGroup={this.props.deletePropertyGroup}
+                updatePropertyGroup={this.props.updatePropertyGroup}
+              />
             ))
           }
         </ul>
@@ -70,7 +71,8 @@ const mapDispatchToProps = dispatch => bindActionCreators({
   subscribePropertyGroups,
   unsubscribePropertyGroups,
   addPropertyGroup,
-  deletePropertyGroup
+  deletePropertyGroup,
+  updatePropertyGroup
 }, dispatch);
 
 export default connect(

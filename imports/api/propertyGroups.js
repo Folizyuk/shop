@@ -6,7 +6,7 @@ import * as types from '../ui/actions/actionTypes';
 
 export const PropertyGroups = new Mongo.Collection('propertyGroups');
 PropertyGroups.schema = new SimpleSchema({
-  title: {type: String},
+  title: {type: String, min: 3},
   _id: {type: String, regEx: SimpleSchema.RegEx.Id, optional: true}
 });
 
@@ -25,5 +25,11 @@ Meteor.methods({
   'propertyGroups.remove'(_id) {
     PropertyGroups.schema.validate({_id}, {keys: ['_id']});
     return PropertyGroups.remove(_id);
+  },
+  'propertyGroups.update'({id, title}) {
+    PropertyGroups.schema.validate({_id: id, title});
+    PropertyGroups.update(id, {
+      $set: { title: title }
+    });
   },
 });

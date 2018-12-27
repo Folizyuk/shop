@@ -37,3 +37,12 @@ export const deletePropertyGroup = (id) => {
     }
   }
 };
+
+export const updatePropertyGroup = (id, title) => {
+  return {
+    type: types.UPDATE_PROPERTY_GROUP_REQUEST,
+    payload: {
+      id, title
+    }
+  }
+};
