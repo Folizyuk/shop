@@ -28,3 +28,12 @@ export const addPropertyGroup = (title) => {
     }
   }
 };
+
+export const deletePropertyGroup = (id) => {
+  return {
+    type: types.DELETE_PROPERTY_GROUP_REQUEST,
+    payload: {
+      id
+    }
+  }
+};

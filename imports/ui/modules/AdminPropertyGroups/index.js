@@ -5,7 +5,8 @@ import { connect } from 'react-redux';
 import {
   subscribePropertyGroups,
   unsubscribePropertyGroups,
-  addPropertyGroup
+  addPropertyGroup,
+  deletePropertyGroup
 } from '../../actions/propertyGroupsCreators';
 
 class AdminPropertyGroups extends Component {
@@ -32,6 +33,10 @@ class AdminPropertyGroups extends Component {
     this.setState({title: ''});
   };
 
+  deletePropertyGroup = id => {
+    this.props.deletePropertyGroup(id);
+  };
+
   render() {
     return (
       <div>
@@ -45,7 +50,7 @@ class AdminPropertyGroups extends Component {
             this.props.propertyGroups.map(item => (
               <li key={item._id}>
                 <span>{item.title}</span>
-                <button>X</button>
+                <button onClick={() => this.deletePropertyGroup(item._id)}>X</button>
               </li>
             ))
           }
@@ -64,7 +69,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => bindActionCreators({
   subscribePropertyGroups,
   unsubscribePropertyGroups,
-  addPropertyGroup
+  addPropertyGroup,
+  deletePropertyGroup
 }, dispatch);
 
 export default connect(

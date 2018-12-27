@@ -10,8 +10,18 @@ function* createPropertyGroup(action) {
   }
 }
 
+function* removePropertyGroup(action) {
+  const { id } = action.payload;
+  try {
+    yield Meteor.callPromise('propertyGroups.remove', id);
+  } catch (e) {
+    console.warn('error', e);
+  }
+}
+
 function* propertyGroupsSaga() {
   yield takeLatest(types.ADD_PROPERTY_GROUP_REQUEST, createPropertyGroup);
+  yield takeLatest(types.DELETE_PROPERTY_GROUP_REQUEST, removePropertyGroup);
 }
 
 export default propertyGroupsSaga;

@@ -19,11 +19,11 @@ if (Meteor.isServer) {
 
 Meteor.methods({
   'propertyGroups.insert'(title) {
-
-    PropertyGroups.schema.validate({title});
-
-    return PropertyGroups.insert({
-      title
-    });
+    PropertyGroups.schema.validate({title}, {keys: ['title']});
+    return PropertyGroups.insert({ title });
+  },
+  'propertyGroups.remove'(_id) {
+    PropertyGroups.schema.validate({_id}, {keys: ['_id']});
+    return PropertyGroups.remove(_id);
   },
 });
