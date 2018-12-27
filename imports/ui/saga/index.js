@@ -1,9 +1,9 @@
 import { all, call } from 'redux-saga/effects';
-import tasksSaga from './tasksSaga';
+import propertyGroupsSaga from './propertyGroupsSaga';
 
 function* rootSaga() {
   yield all([
-    call(tasksSaga),
+    call(propertyGroupsSaga),
   ])
 }
 

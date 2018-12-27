@@ -19,3 +19,12 @@ export const subscribePropertyGroups = () => {
 };
 
 export const unsubscribePropertyGroups = () => stopSubscription(types.PROPERTY_GROUPS);
+
+export const addPropertyGroup = (title) => {
+  return {
+    type: types.ADD_PROPERTY_GROUP_REQUEST,
+    payload: {
+      title
+    }
+  }
+};
