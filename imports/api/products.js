@@ -4,11 +4,17 @@ import { check } from 'meteor/check';
 import SimpleSchema from 'simpl-schema';
 import * as types from '../ui/actions/actionTypes';
 import options from './collectionConfig';
+import Helpers from './../ui/helpers';
 
 export const Products = new Mongo.Collection('products', options);
 Products.schema = new SimpleSchema({
   name: {type: String, min: 3},
-  image: {type: String},
+  image: {type: String, optional: true},
+  properties: {type: Array},
+  'properties.$': Object,
+  'properties.$.prop_id': Object,
+  'properties.$.prop_id._str': String,
+  'properties.$.value': SimpleSchema.oneOf(String, Number),
 });
 
 if (Meteor.isServer) {
@@ -22,6 +28,10 @@ Meteor.methods({
   'products'() {
     return Products.find({});
   },
+  'product.insert'(product) {
+    Products.schema.validate(product, {keys: ['name', 'properties']});
+    return Products.insert(product);
+  },
   'product.update'({_id, ...product}) {
     Products.schema.validate({...product});
     Products.update(_id, {
@@ -32,17 +42,6 @@ Meteor.methods({
     return Products.remove(_id);
   },
 });
-
-/*
-Meteor.methods({
-  'properties.insert'(title) {
-    Properties.schema.validate({title}, {keys: ['title']});
-    return Properties.insert({ title });
-  },
-
-
-});
-*/
 
 /*
 Meteor.methods({

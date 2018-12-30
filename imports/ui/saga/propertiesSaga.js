@@ -3,7 +3,6 @@ import { takeLatest } from 'redux-saga/effects';
 import * as types from './../actions/actionTypes';
 
 function* createProperty(action) {
-  console.log(action)
   const { title } = action.payload;
   try {
     yield Meteor.callPromise('properties.insert', title);

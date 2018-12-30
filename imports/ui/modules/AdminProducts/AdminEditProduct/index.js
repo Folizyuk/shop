@@ -2,30 +2,49 @@ import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
+import Helpers from './../../../helpers'
+
 import {
   subscribeProduct,
   unsubscribeProduct,
   updateProduct,
+  addProduct
 } from '../../../actions/productsCreators';
 
+import {
+  subscribeProperties,
+  unsubscribeProperties
+} from '../../../actions/propertiesCreators';
+
 //import './style.css';
+const emptyProp = () => {
+  return {prop_id: Helpers.uuidv4(), value: ''};
+};
 
 class AdminEditProduct extends Component {
 
   constructor(props) {
     super(props);
     this.state = {
-      product: {}
+      product: {
+        properties: [{...emptyProp()}]
+      },
+      productId: this.props.match.params.id
     };
   }
 
   componentDidMount() {
-    const id = this.props.match.params.id;
-    if (id) this.props.subscribeProduct(id);
+    if (this.state.productId) this.props.subscribeProduct(this.state.productId);
+    this.props.subscribeProperties();
   }
 
   componentWillUnmount() {
     if (this.props.match.params.id) this.props.unsubscribeProduct();
+    this.props.unsubscribeProperties();
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (this.state.productId) this.setState({product: {...this.state.product, ...nextProps.product}});
   }
 
   onChange = (e) => {
@@ -34,17 +53,40 @@ class AdminEditProduct extends Component {
     });
   };
 
+  onChangeProperty = (value, index) => {
+    const properties = this.state.product.properties.slice();
+    properties[index] = {...properties[index], [value.key]: value.value};
+    this.setState({
+      product: {...this.state.product, properties}
+    });
+  };
+
+  onAddEmptyProp = (e) => {
+    this.setState({
+      product: {...this.state.product, properties: [...this.state.product.properties, {...emptyProp()}]}
+    });
+  };
+
+  onRemoveProp = (index) => {
+    const properties = this.state.product.properties.slice();
+    properties.splice(index, 1);
+    this.setState({
+      product: {...this.state.product, properties}
+    });
+  };
+
   saveProduct = () => {
-    const product = {...this.props.product, ...this.state.product};
-    this.props.updateProduct(product);
+    if (this.state.productId) this.props.updateProduct(this.state.product);
+    else this.props.addProduct(this.state.product)
   };
 
   render() {
-    const { product } = this.props;
+    const { properties } = this.props;
+    const { product } = this.state;
     return (
       <div>
         {
-          this.props.match.params.id ? 'edit product' : 'create product'
+          this.state.productId ? 'edit product' : 'create product'
         }
         <div>
           {
@@ -54,6 +96,41 @@ class AdminEditProduct extends Component {
                 <label>name</label>
                 <input type="text" name="name" defaultValue={product.name} onChange={this.onChange}/>
               </div>
+              {
+                product.properties.map((prop, i) => {
+                  return (
+                    <div key={prop.prop_id}>
+                      <label>property</label>
+                      <select defaultValue={prop.prop_id}
+                              onChange={(e) => this.onChangeProperty({
+                                value: Helpers.parseMongoID(e.target.value), key: 'prop_id'}, i)
+                              }>
+                        <option>Select</option>
+                        {
+                          properties.map(p => {
+                            return <option
+                              key={p._id}
+                              value={p._id}>
+                              {p.title}
+                              </option>
+                          })
+                        }
+                      </select>
+                      <input type="text"
+                             value={prop.value}
+                             onChange={(e) => this.onChangeProperty({value: e.target.value, key: 'value'}, i)}
+                      />
+                      {
+                        i === (product.properties.length - 1) &&
+                        <button onClick={this.onAddEmptyProp}>+</button>
+                      }
+                      {
+                        product.properties.length > 1 && <button onClick={() => this.onRemoveProp(i)}>-</button>
+                      }
+                    </div>
+                  )
+                })
+              }
               <div>
                 <input type="button" value="Save" onClick={this.saveProduct}/>
               </div>
@@ -68,6 +145,7 @@ class AdminEditProduct extends Component {
 const mapStateToProps = state => {
   return {
     product: state.product.data,
+    properties: state.properties.data
   }
 };
 
@@ -75,6 +153,9 @@ const mapDispatchToProps = dispatch => bindActionCreators({
   subscribeProduct,
   unsubscribeProduct,
   updateProduct,
+  addProduct,
+  subscribeProperties,
+  unsubscribeProperties,
 }, dispatch);
 
 export default connect(

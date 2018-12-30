@@ -35,6 +35,15 @@ export const subscribeProduct = (id) => {
 
 export const unsubscribeProduct = () => stopSubscription(types.PRODUCT);
 
+export const addProduct = (product) => {
+  return {
+    type: types.ADD_PRODUCT_REQUEST,
+    payload: {
+      product
+    }
+  }
+};
+
 export const updateProduct = (product) => {
   return {
     type: types.UPDATE_PRODUCT_REQUEST,
