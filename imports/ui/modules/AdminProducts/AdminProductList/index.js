@@ -5,7 +5,8 @@ import { Link } from 'react-router-dom';
 
 import {
   subscribeProducts,
-  unsubscribeProducts
+  unsubscribeProducts,
+  deleteProduct
 } from '../../../actions/productsCreators';
 
 import './style.css';
@@ -20,11 +21,16 @@ class AdminProductList extends Component {
     this.props.unsubscribeProducts();
   }
 
+  onDelete = (id) => {
+    this.props.deleteProduct(id);
+  };
+
   render() {
     return (
       <table className="admin_products">
         <tbody>
         <tr>
+          <th>delete</th>
           <th>edit</th>
           <th>_id</th>
           <th>title</th>
@@ -34,6 +40,9 @@ class AdminProductList extends Component {
           this.props.products.map(product => {
             return (
               <tr key={product._id}>
+                <td>
+                  <button onClick={() => this.onDelete(product._id)}>X</button>
+                </td>
                 <td>
                   <Link to={`/admin/edit-product/${product._id._str}`}>edit</Link>
                 </td>
@@ -58,7 +67,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => bindActionCreators({
   subscribeProducts,
-  unsubscribeProducts
+  unsubscribeProducts,
+  deleteProduct,
 }, dispatch);
 
 export default connect(

@@ -7,7 +7,7 @@ class AdminProducts extends Component {
     return (
       <div>
         AdminProducts
-        <Link to="/admin/products">create new product</Link>
+        <Link to="/admin/create-product">create new product</Link>
         <div>
           <AdminProductList />
         </div>

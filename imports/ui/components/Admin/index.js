@@ -22,6 +22,7 @@ export default Admin = () => (
       <Route path='/admin/propertyGroups' component={AdminPropertyGroups} />
       <Route path='/admin/properties' component={AdminProperties} />
       <Route path='/admin/edit-product/:id' component={AdminEditProduct} />
+      <Route path='/admin/create-product' component={AdminEditProduct} />
     </div>
 
   </div>
