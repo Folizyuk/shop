@@ -2,8 +2,9 @@ import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
 import { check } from 'meteor/check';
 import * as types from '../ui/actions/actionTypes';
+import options from './collectionConfig';
 
-export const Products = new Mongo.Collection('products');
+export const Products = new Mongo.Collection('products', options);
 
 if (Meteor.isServer) {
   // This code only runs on the server
