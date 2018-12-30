@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 import {
   subscribeProducts,
   unsubscribeProducts
-} from '../../../actions/actionCreators';
+} from '../../../actions/productsCreators';
 
 import './style.css';
 
@@ -24,6 +25,7 @@ class AdminProductList extends Component {
       <table className="admin_products">
         <tbody>
         <tr>
+          <th>edit</th>
           <th>_id</th>
           <th>title</th>
           <th>image</th>
@@ -32,6 +34,9 @@ class AdminProductList extends Component {
           this.props.products.map(product => {
             return (
               <tr key={product._id}>
+                <td>
+                  <Link to={`/admin/edit-product/${product._id._str}`}>edit</Link>
+                </td>
                 <td>{product._id._str}</td>
                 <td>{product.name}</td>
                 <td><img src={product.image}/></td>

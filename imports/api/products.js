@@ -1,10 +1,15 @@
 import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
 import { check } from 'meteor/check';
+import SimpleSchema from 'simpl-schema';
 import * as types from '../ui/actions/actionTypes';
 import options from './collectionConfig';
 
 export const Products = new Mongo.Collection('products', options);
+Products.schema = new SimpleSchema({
+  name: {type: String, min: 3},
+  image: {type: String},
+});
 
 if (Meteor.isServer) {
   // This code only runs on the server
@@ -16,8 +21,28 @@ if (Meteor.isServer) {
 Meteor.methods({
   'products'() {
     return Products.find({});
-  }
+  },
+  'product.update'({_id, ...product}) {
+    Products.schema.validate({...product});
+    Products.update(_id, {
+      $set: { ...product }
+    });
+  },
 });
+
+/*
+Meteor.methods({
+  'properties.insert'(title) {
+    Properties.schema.validate({title}, {keys: ['title']});
+    return Properties.insert({ title });
+  },
+  'properties.remove'(_id) {
+    //Properties.schema.validate({_id}, {keys: ['_id']});
+    return Properties.remove(_id);
+  },
+
+});
+*/
 
 /*
 Meteor.methods({

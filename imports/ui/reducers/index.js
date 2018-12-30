@@ -2,6 +2,7 @@ import { combineReducers } from 'redux'
 import products from './products';
 import propertyGroups from './propertyGroups';
 import properties from './properties';
+import product from './product';
 
 /*PERSIST*/
 import { persistReducer } from 'redux-persist'
@@ -14,14 +15,16 @@ const rootPersistConfig = {
   blacklist: [
     'products',
     'propertyGroups',
-    'properties'
+    'properties',
+    'product',
   ] // list of components which will not be persisted
 };
 
 const rootReducer = combineReducers ({
   products,
   propertyGroups,
-  properties
+  properties,
+  product,
 });
 
 export default persistReducer(rootPersistConfig, rootReducer);
