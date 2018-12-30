@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import { push } from 'connected-react-router';
 
 import {
   subscribeProduct,
   unsubscribeProduct,
-  updateProduct
+  updateProduct,
+  deleteProduct
 } from '../../../actions/productsCreators';
 
 //import './style.css';
@@ -38,6 +40,11 @@ class AdminEditProduct extends Component {
     this.props.updateProduct(product);
   };
 
+  onDelete = () => {
+    this.props.deleteProduct(this.props.product._id);
+    this.props.push('/admin/products');
+  };
+
   render() {
     const { product } = this.props;
     return (
@@ -47,9 +54,14 @@ class AdminEditProduct extends Component {
           {
             product &&
             <form>
-              <label>name</label>
-              <input type="text" name="name" defaultValue={product.name} onChange={this.onChange}/>
-              <input type="button" value="Save" onClick={this.saveProduct}/>
+              <div>
+                <button onClick={this.onDelete}>X</button>
+                <label>name</label>
+                <input type="text" name="name" defaultValue={product.name} onChange={this.onChange}/>
+              </div>
+              <div>
+                <input type="button" value="Save" onClick={this.saveProduct}/>
+              </div>
             </form>
           }
         </div>
@@ -67,7 +79,9 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => bindActionCreators({
   subscribeProduct,
   unsubscribeProduct,
-  updateProduct
+  updateProduct,
+  deleteProduct,
+  push
 }, dispatch);
 
 export default connect(

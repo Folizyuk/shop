@@ -41,3 +41,12 @@ export const updateProduct = (product) => {
     payload: { product }
   }
 };
+
+export const deleteProduct = (id) => {
+  return {
+    type: types.DELETE_PRODUCT_REQUEST,
+    payload: {
+      id
+    }
+  }
+};

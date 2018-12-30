@@ -28,6 +28,9 @@ Meteor.methods({
       $set: { ...product }
     });
   },
+  'product.remove'(_id) {
+    return Products.remove(_id);
+  },
 });
 
 /*
@@ -36,10 +39,7 @@ Meteor.methods({
     Properties.schema.validate({title}, {keys: ['title']});
     return Properties.insert({ title });
   },
-  'properties.remove'(_id) {
-    //Properties.schema.validate({_id}, {keys: ['_id']});
-    return Properties.remove(_id);
-  },
+
 
 });
 */
