@@ -1,4 +1,4 @@
-import { PRODUCTS, PRODUCTS_SUBSCRIPTION_CHANGED, PRODUCTS_SUBSCRIPTION_READY } from '../actions/actionTypes';
+import { FILTERS, FILTERS_SUBSCRIPTION_CHANGED, FILTERS_SUBSCRIPTION_READY } from '../actions/actionTypes';
 import { STOP_SUBSCRIPTION } from 'meteor-redux-middlewares';
 
 const initialState = {
@@ -7,21 +7,21 @@ const initialState = {
   data: []
 };
 
-function products(state = initialState, action) {
+function filters(state = initialState, action) {
   switch (action.type) {
-    case PRODUCTS_SUBSCRIPTION_READY:
+    case FILTERS_SUBSCRIPTION_READY:
       if (state.ready === action.payload.ready) return state;
       return {
         ...state,
         ready: action.payload.ready
       };
-    case PRODUCTS_SUBSCRIPTION_CHANGED:
+    case FILTERS_SUBSCRIPTION_CHANGED:
       return {
         ...state,
-        data: [...action.payload.products],
+        data: [...action.payload.filters],
       };
     case STOP_SUBSCRIPTION:
-      return action.payload === PRODUCTS
+      return action.payload === FILTERS
         ? { ...state, subscriptionStop: true }
         : state;
     default:
@@ -29,4 +29,4 @@ function products(state = initialState, action) {
   }
 }
 
-export default products
+export default filters

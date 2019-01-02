@@ -3,6 +3,8 @@ import products from './products';
 import propertyGroups from './propertyGroups';
 import properties from './properties';
 import product from './product';
+import filters from './filters';
+import filter from './filter';
 
 /*PERSIST*/
 import { persistReducer } from 'redux-persist'
@@ -17,6 +19,8 @@ const rootPersistConfig = {
     'propertyGroups',
     'properties',
     'product',
+    'filters',
+    'filter',
   ] // list of components which will not be persisted
 };
 
@@ -25,6 +29,8 @@ const rootReducer = combineReducers ({
   propertyGroups,
   properties,
   product,
+  filters,
+  filter,
 });
 
 export default persistReducer(rootPersistConfig, rootReducer);
