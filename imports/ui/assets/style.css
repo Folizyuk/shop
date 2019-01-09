@@ -24,6 +24,15 @@ button {
   margin: 0 auto;
 }
 
+.container .content {
+  display: flex;
+  flex-direction: row;
+}
+
+.container .content .filter-bar {
+  flex: 0 0 300px;
+}
+
 /***** Products */
 .product-list {
   display: flex;

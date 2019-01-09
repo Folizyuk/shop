@@ -1,13 +1,11 @@
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-
-//import AccountsUIWrapper from './AccountsUIWrapper';
+import { push } from "connected-react-router";
 
 import { subscribeProducts, unsubscribeProducts } from '../../actions/actionCreators';
-import Product from './ProductItem';
 
-class ProductList extends Component {
+class FilterBar extends Component {
 
   componentDidMount() {
     this.props.subscribeProducts();
@@ -17,12 +15,20 @@ class ProductList extends Component {
     this.props.unsubscribeProducts();
   }
 
+  onChangePrice = (e) => {
+    const price = Number(e.target.value);
+    console.log(price);
+    this.props.push({
+      search: `?color=${price}`
+    })
+  };
+
   render() {
     return (
-      <div className="product-list">
-        {
-          this.props.products.map(item => <Product product={item} key={item._id}/>)
-        }
+      <div className="filter-bar">
+        <div>
+          price <input type="number" onChange={this.onChangePrice}/>
+        </div>
       </div>
     );
   }
@@ -36,10 +42,11 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => bindActionCreators({
   subscribeProducts,
-  unsubscribeProducts
+  unsubscribeProducts,
+  push,
 }, dispatch);
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(ProductList);
+)(FilterBar);
