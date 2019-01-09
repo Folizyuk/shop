@@ -1,11 +1,13 @@
 import { Meteor } from 'meteor/meteor';
-import { takeLatest } from 'redux-saga/effects';
+import { takeLatest, put } from 'redux-saga/effects';
 import * as types from './../actions/actionTypes';
+import { push } from "connected-react-router";
 
 function* createProduct(action) {
   const { product } = action.payload;
   try {
     yield Meteor.callPromise('product.insert', product);
+    yield put(push(`/admin/products`));
   } catch (e) {
     console.warn('error', e);
   }
@@ -15,6 +17,7 @@ function* updateProduct(action) {
   const { product } = action.payload;
   try {
     yield Meteor.callPromise('product.update', product);
+    yield put(push(`/admin/products`));
   } catch (e) {
     console.warn('error', e);
   }

@@ -27,6 +27,7 @@ class AdminEditProduct extends Component {
     super(props);
     this.state = {
       product: {
+        price: 0,
         properties: [{...emptyProp()}]
       },
       productId: this.props.match.params.id
@@ -61,6 +62,15 @@ class AdminEditProduct extends Component {
     });
   };
 
+  onChangePrice = (e) => {
+    const price = Number(e.target.value);
+    if (price <= 0) return;
+
+    this.setState({
+      product: {...this.state.product, price: Number(e.target.value)}
+    });
+  };
+
   onAddEmptyProp = (e) => {
     this.setState({
       product: {...this.state.product, properties: [...this.state.product.properties, {...emptyProp()}]}
@@ -77,7 +87,7 @@ class AdminEditProduct extends Component {
 
   saveProduct = () => {
     if (this.state.productId) this.props.updateProduct(this.state.product);
-    else this.props.addProduct(this.state.product)
+    else this.props.addProduct(this.state.product);
   };
 
   render() {
@@ -131,6 +141,10 @@ class AdminEditProduct extends Component {
                   )
                 })
               }
+              <div>
+                <label>price</label>
+                <input type="number" value={product.price} onChange={this.onChangePrice}/>
+              </div>
               <div>
                 <input type="button" value="Save" onClick={this.saveProduct}/>
               </div>

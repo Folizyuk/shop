@@ -76,8 +76,6 @@ class AdminEditFilter extends Component {
   };
 
   saveFilter = () => {
-    console.log(this.state)
-    console.log(this.props)
     if (this.state.filterId) this.props.updateFilter(this.state.filter);
     else this.props.addFilter(this.state.filter);
   };

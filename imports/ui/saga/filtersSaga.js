@@ -4,7 +4,6 @@ import * as types from './../actions/actionTypes';
 
 function* createFilter(action) {
   const { filter } = action.payload;
-  console.log(filter)
   try {
     yield Meteor.callPromise('filter.insert', filter);
   } catch (e) {

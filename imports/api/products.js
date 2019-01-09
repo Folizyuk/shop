@@ -4,12 +4,12 @@ import { check } from 'meteor/check';
 import SimpleSchema from 'simpl-schema';
 import * as types from '../ui/actions/actionTypes';
 import options from './collectionConfig';
-import Helpers from './../ui/helpers';
 
 export const Products = new Mongo.Collection('products', options);
 Products.schema = new SimpleSchema({
   name: {type: String, min: 3},
   image: {type: String, optional: true},
+  price: {type: Number, required: true},
   properties: {type: Array},
   'properties.$': Object,
   'properties.$.prop_id': Object,
