@@ -48,8 +48,7 @@ class AdminProductList extends Component {
                 </td>
                 <td>{product._id._str}</td>
                 <td>{product.name}</td>
-                /*<td><img src={product.image} alt="image"/></td>*/
-                <td><img src={null} alt="image"/></td>
+                <td><img src={product.image} alt="image"/></td>
               </tr>
             )
           })

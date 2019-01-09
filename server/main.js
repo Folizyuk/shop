@@ -1,7 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 
 import '../imports/api/products.js';
-import '../imports/api/propertyGroups';
 import '../imports/api/properties';
 import '../imports/api/filters';
 

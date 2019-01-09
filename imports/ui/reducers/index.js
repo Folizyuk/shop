@@ -1,6 +1,5 @@
 import { combineReducers } from 'redux'
 import products from './products';
-import propertyGroups from './propertyGroups';
 import properties from './properties';
 import product from './product';
 import filters from './filters';
@@ -16,7 +15,6 @@ const rootPersistConfig = {
   storage: storageSession,
   blacklist: [
     'products',
-    'propertyGroups',
     'properties',
     'product',
     'filters',
@@ -26,7 +24,6 @@ const rootPersistConfig = {
 
 const rootReducer = combineReducers ({
   products,
-  propertyGroups,
   properties,
   product,
   filters,
