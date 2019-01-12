@@ -51,5 +51,19 @@ export default class Helpers {
     return typeof id === 'string' ? new Meteor.Collection.ObjectID(id) : id;
   }
 
+  static getObjectFromParams(paramsStr) {
+    const urlSearchParams = new URLSearchParams(paramsStr);
+    const obj = {};
+    urlSearchParams.forEach((value, name) => {
+      //if (typeof value === 'undefined' || value === null) return;
+      let parsedValue = value;
+      if (!isNaN(value) && typeof Number(value) === 'number') parsedValue = Number(value); //check is number
+      else if (parsedValue === 'true') parsedValue = true; // check is true
+      else if (parsedValue === 'false') parsedValue = false; // check is false
+      obj[name] = parsedValue;
+    });
+    return obj;
+  }
+
 
 }

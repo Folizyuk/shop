@@ -4,10 +4,12 @@ import { connect } from 'react-redux';
 import { push } from "connected-react-router";
 
 import { subscribeProducts, unsubscribeProducts } from '../../actions/actionCreators';
+import Helpers from '../../helpers';
 
 class FilterBar extends Component {
 
   componentDidMount() {
+    this.debounce = Helpers.debounce();
     this.props.subscribeProducts();
   }
 
@@ -17,10 +19,12 @@ class FilterBar extends Component {
 
   onChangePrice = (e) => {
     const price = Number(e.target.value);
-    console.log(price);
-    this.props.push({
-      search: `?color=${price}`
-    })
+    this.debounce(() => {
+      console.log(price);
+      this.props.push({
+        search: `?price=${price}&dd=222`
+      });
+    }, 300);
   };
 
   render() {

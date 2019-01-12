@@ -6,12 +6,13 @@ import * as types from './actionTypes';
 
 /** PRODUCTS */
 
-export const subscribeProducts = () => {
+export const subscribeProducts = ({price} = {}) => {
+  console.log('subscribeProducts');
   return startSubscription({
     key: types.PRODUCTS,
     get: () => {
       return {
-        products: Products.find({}, { sort: { createdAt: -1 } }).fetch(),
+        products: Products.find({price: price}, { sort: { createdAt: -1 } }).fetch(),
       }
     },
     subscribe: () => Meteor.subscribe(types.PRODUCTS),

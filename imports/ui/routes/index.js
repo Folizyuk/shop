@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Redirect } from 'react-router';
+import { Route } from 'react-router';
 import Home from '../components/Home';
 import Admin from '../components/Admin';
 
