@@ -91,8 +91,23 @@ class AdminEditProduct extends Component {
   };
 
   render() {
+    console.log(this.state)
     const { properties } = this.props;
     const { product } = this.state;
+    console.log(properties);
+
+    /*const filteredProps = properties.filter(item => {
+      return !product.properties.some(productProp => productProp.prop_id._str === item._id._str)
+    });*/
+
+    const getPropsForSelect = (prop) => {
+      const filteredProps = properties.filter(item => {
+        return !product.properties.some(productProp => productProp.prop_id._str === item._id._str)
+          || item._id._str === prop.prop_id._str;
+      });
+      return filteredProps;
+    };
+
     return (
       <div>
         {
@@ -117,7 +132,7 @@ class AdminEditProduct extends Component {
                               }>
                         <option>Select</option>
                         {
-                          properties.map(p => {
+                          getPropsForSelect(prop).map(p => {
                             return <option
                               key={p._id}
                               value={p._id}>

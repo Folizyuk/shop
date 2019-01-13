@@ -42,9 +42,11 @@ class FilterBar extends Component {
     currentParams[paramName] = price;
     const queryStr = Helpers.getQueryStringFromObj(currentParams);
 
-    this.debounce(() => {
-      this.props.replace({ search: `?${queryStr}` });
-    }, 300);
+    if (currentParams.minPrice >=0 && currentParams.maxPrice >= 0) {
+      this.debounce(() => {
+        this.props.replace({ search: `?${queryStr}` });
+      }, 300);
+    }
   };
 
   render() {
