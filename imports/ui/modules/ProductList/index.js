@@ -13,13 +13,10 @@ class ProductList extends Component {
 
   componentDidMount() {
     this.unlistenLocation = this.props.history.listen((location, action) => {
-      console.log(location, action);
-
-      console.log(Helpers.getObjectFromParams(location.search));
       this.props.subscribeProducts(Helpers.getObjectFromParams(location.search));
     });
 
-    this.props.subscribeProducts();
+    this.props.subscribeProducts(Helpers.getObjectFromParams(location.search));
   }
 
   componentWillUnmount() {
@@ -29,7 +26,7 @@ class ProductList extends Component {
 
   render() {
     return (
-      <div className="product-list">
+      <div className="product-list shadow-bar">
         {
           this.props.products.map(item => <Product product={item} key={item._id}/>)
         }
@@ -39,7 +36,6 @@ class ProductList extends Component {
 }
 
 const mapStateToProps = state => {
-  //console.log(state)
   return {
     products: state.products.data,
   }

@@ -5,6 +5,8 @@ import SimpleSchema from 'simpl-schema';
 import * as types from '../ui/actions/actionTypes';
 import options from './collectionConfig';
 
+import Helpers from '../ui/helpers';
+
 export const Products = new Mongo.Collection('products', options);
 Products.schema = new SimpleSchema({
   name: {type: String, min: 3},
@@ -19,14 +21,22 @@ Products.schema = new SimpleSchema({
 
 if (Meteor.isServer) {
   // This code only runs on the server
-  Meteor.publish(types.PRODUCTS, function productPublication() {
-    return Products.find();
+  Meteor.publish(types.PRODUCTS, function productPublication(data) {
+    if (Helpers.isEmptyObj(data)) {
+      return Products.find({}, { sort: { createdAt: -1 } });
+    }
+
+    const {minPrice, maxPrice} = data;
+    return Products.find(
+      { price: {$gte: minPrice, $lte: maxPrice } },
+      { sort: { createdAt: -1 } }
+    );
   });
 }
 
 Meteor.methods({
-  'products'() {
-    return Products.find({});
+  'products'(data) {
+    return Products.find().fetch();
   },
   'product.insert'(product) {
     Products.schema.validate(product, {keys: ['name', 'properties']});

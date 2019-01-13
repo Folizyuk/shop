@@ -7,10 +7,9 @@ class Product extends Component {
     return (
       <div className="product-item">
         <h3>{product.name}</h3>
-        /*<img src={product.image}/>*/
-        <img src={null}/>
+        <img src={product.image}/>
         <div className="product-item--footer">
-          <div className="price">100$</div>
+          <div className="price">${product.price}</div>
           <button className="btn-primary">buy</button>
         </div>
       </div>

@@ -66,4 +66,10 @@ export default class Helpers {
   }
 
 
+  static getQueryStringFromObj(paramsObj) {
+    const searchParams = new URLSearchParams();
+    Object.keys(paramsObj).forEach(key => searchParams.append(key, paramsObj[key]));
+    return searchParams.toString();
+  }
+
 }
