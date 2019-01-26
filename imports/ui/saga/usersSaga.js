@@ -33,6 +33,9 @@ function* signUser(action) {
   try {
     const data = yield call(signInUser, user);
     console.log(data)
+    console.log(Meteor.userId())
+    console.log(Meteor.user())
+
     const { id, token, tokenExpires } = data;
 
     //yield put(push(`/admin/products`));

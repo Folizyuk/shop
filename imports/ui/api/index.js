@@ -21,5 +21,5 @@ export const signUpUser = (user) => {
 };
 
 export const signInUser = (user) => {
-  return ApiService.post(`/users/login`, user);
+  return ApiService.post(`/myusers/mylogin`, user);
 };
