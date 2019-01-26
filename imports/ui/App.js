@@ -3,6 +3,7 @@ import { ConnectedRouter } from 'connected-react-router';
 
 import Header from './components/Header';
 import routes from './routes';
+import RootModal from './modules/Modals/RootModal';
 
 import './assets/style.css';
 
@@ -12,6 +13,7 @@ const App = ({ history }) => {
       <div className="App">
         <Header/>
         { routes }
+        <RootModal />
       </div>
     </ConnectedRouter>
   )

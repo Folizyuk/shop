@@ -30,11 +30,19 @@ export default class ApiService {
 
     return fetch(requestOptions)
       .then(response => {
-        if(response.ok) return response.json();
-        throw new Error(`Request rejected with status ${response.status}`);
+        console.log(response)
+        return response.json();
+        //if(response.ok) return response.json();
+        //throw new Error(`Request rejected with status ${response.status}`);
       })
-      .then(data => data)
-      .catch(error => null);
+      .then(data => {
+        console.log(data)
+        return data;
+      })
+      .catch(error => {
+        console.log(error)
+        return error;
+      });
   }
 
   static put(url, data) {

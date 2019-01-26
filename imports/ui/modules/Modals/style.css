@@ -1,0 +1,89 @@
+/* The Modal (background) */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1000; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+}
+
+.modal.active {
+  display: block;
+}
+
+/* Modal Content */
+.modal-content {
+  position: relative;
+  padding: 0;
+  width: 80%;
+  animation: animatetop 0.4s;
+  top: 50%;
+  margin-top: -150px;
+  margin-left: auto;
+  margin-right: auto;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #fff;
+  box-shadow: 0 5px 15px 0 rgba(128,142,155,0.19);
+}
+
+.modal-content.modal-small {
+  width: 371px;
+}
+
+/* Modal Header */
+.modal-content .modal-header {
+  border-bottom: 1px solid #ccc;
+  height: 44px;
+  margin: 0;
+  padding: 0 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.modal-content .modal-header .title {
+  color: #000;
+  font-family: "Nunito Sans";
+  font-size: 16px;
+  font-weight: 600;
+}
+
+/* The Close Button */
+.modal-content .modal-header .close {
+  color: #000;
+  cursor: pointer;
+  display: inline-block;
+  padding: 2px 3px;
+  font-size: 14px;
+}
+
+/* Modal Body */
+.modal-content .modal-body {
+  padding: 37px 20px;
+}
+
+/* Modal Footer */
+.modal-content .modal-footer {
+  display: flex;
+  justify-content: space-between;
+  border-top: 1px solid #ccc;
+  padding: 20px;
+}
+
+/* Add Animation */
+@keyframes animatetop {
+  from {
+    top: 0;
+    opacity: 0;
+    margin-top: 0;
+  }
+  to {
+    top: 50%;
+    opacity: 1;
+    margin-top: -150px;
+  }
+}

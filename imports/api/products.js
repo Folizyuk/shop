@@ -35,8 +35,8 @@ if (Meteor.isServer) {
   });
 
 
-  //JsonRoutes.Middleware.use(JsonRoutes.Middleware.parseBearerToken);
-  //JsonRoutes.Middleware.use(JsonRoutes.Middleware.authenticateMeteorUserByToken);
+  JsonRoutes.Middleware.use(JsonRoutes.Middleware.parseBearerToken);
+  JsonRoutes.Middleware.use(JsonRoutes.Middleware.authenticateMeteorUserByToken);
 
 // Handle errors specifically for the login routes correctly
   JsonRoutes.ErrorMiddleware.use('/products', RestMiddleware.handleErrorAsJson);

@@ -2,6 +2,8 @@ header {
   height: 30px;
   background: #ccc;
   padding: 10px;
+  display: flex;
+  justify-content: space-between;
 }
 
 header a {
