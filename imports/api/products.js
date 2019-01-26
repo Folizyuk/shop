@@ -4,6 +4,7 @@ import { check } from 'meteor/check';
 import SimpleSchema from 'simpl-schema';
 import * as types from '../ui/actions/actionTypes';
 import options from './collectionConfig';
+import { get404 } from './errors';
 
 import Helpers from '../ui/helpers';
 
@@ -32,26 +33,76 @@ if (Meteor.isServer) {
       { sort: { createdAt: -1 } }
     );
   });
-}
 
-Meteor.methods({
-  'products'(data) {
-    return Products.find().fetch();
-  },
-  'product.insert'(product) {
-    Products.schema.validate(product, {keys: ['name', 'properties']});
-    return Products.insert(product);
-  },
-  'product.update'({_id, ...product}) {
-    Products.schema.validate({...product});
-    Products.update(_id, {
-      $set: { ...product }
+
+  //JsonRoutes.Middleware.use(JsonRoutes.Middleware.parseBearerToken);
+  //JsonRoutes.Middleware.use(JsonRoutes.Middleware.authenticateMeteorUserByToken);
+
+// Handle errors specifically for the login routes correctly
+  JsonRoutes.ErrorMiddleware.use('/products', RestMiddleware.handleErrorAsJson);
+
+  JsonRoutes.add('options', '/products', function (req, res) {
+    JsonRoutes.sendResult(res);
+  });
+
+  JsonRoutes.add('get', '/products', function (req, res, next) {
+    JsonRoutes.sendResult(res, {
+      data:Products.find().fetch()
     });
-  },
-  'product.remove'(_id) {
-    return Products.remove(_id);
-  },
-});
+  });
+
+  JsonRoutes.add('post', '/products', function (req, res, next) {
+    const product = req.body;
+
+    try {
+      Products.schema.validate(product, {keys: ['name', 'properties']});
+    } catch (e) {
+      throw get404(e.message);
+    }
+
+    const newProductId = Products.insert(product);
+    if (!newProductId) throw get404(`product was not created`);
+
+    JsonRoutes.sendResult(res, {
+      data: Products.findOne({_id: newProductId})
+    });
+  });
+
+  JsonRoutes.add('put', '/products/:id', function (req, res, next) {
+    const id = req.params.id;
+    const {_id, ...product} = req.body;
+    const parsedId = Helpers.parseMongoID(id);
+
+    try {
+      Products.schema.validate({...product});
+    } catch (e) {
+      throw get404(e.message);
+    }
+
+    const findProduct = Products.findOne({_id: parsedId});
+    if (!findProduct) throw get404(`product with id=${_id} not found`);
+
+    const update = Products.update(parsedId, { $set: { ...product } });
+    if (!update) throw get404(`product with id=${_id} was not updated`);
+
+    JsonRoutes.sendResult(res, {
+      data: Products.findOne({_id: parsedId})
+    });
+  });
+
+  JsonRoutes.add('delete', '/products/:id', function (req, res, next) {
+    const { _id } = req.params;
+    const parsedId = Helpers.parseMongoID(_id);
+
+    const product = Products.findOne({_id: parsedId});
+    if (!product) throw get404(`product with id=${_id} not found`);
+
+    const result = Products.remove(parsedId);
+    if (!result) throw get404(`product with id=${_id} was not deleted`);
+
+    JsonRoutes.sendResult(res, { data: product });
+  });
+}
 
 /*
 Meteor.methods({

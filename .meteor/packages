@@ -22,3 +22,6 @@ accounts-ui
 accounts-password
 meteortesting:mocha
 deanius:promise
+simple:rest
+simple:json-routes
+simple:rest-json-error-handler

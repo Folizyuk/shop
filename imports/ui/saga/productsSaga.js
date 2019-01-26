@@ -1,32 +1,38 @@
 import { Meteor } from 'meteor/meteor';
-import { takeLatest, put } from 'redux-saga/effects';
+import { takeLatest, put, call } from 'redux-saga/effects';
 import * as types from './../actions/actionTypes';
 import { push } from "connected-react-router";
 
-function* createProduct(action) {
+import {
+  createProduct,
+  updateProduct,
+  deleteProduct,
+} from './../api';
+
+function* createItem(action) {
   const { product } = action.payload;
   try {
-    yield Meteor.callPromise('product.insert', product);
+    yield call(createProduct, product);
     yield put(push(`/admin/products`));
   } catch (e) {
     console.warn('error', e);
   }
 }
 
-function* updateProduct(action) {
+function* updateItem(action) {
   const { product } = action.payload;
   try {
-    yield Meteor.callPromise('product.update', product);
+    yield call(updateProduct, product);
     yield put(push(`/admin/products`));
   } catch (e) {
     console.warn('error', e);
   }
 }
 
-function* deleteProduct(action) {
+function* deleteItem(action) {
   const { id } = action.payload;
   try {
-    yield Meteor.callPromise('product.remove', id);
+    yield call(deleteProduct, id._str);
   } catch (e) {
     console.warn('error', e);
   }
@@ -34,9 +40,9 @@ function* deleteProduct(action) {
 
 
 function* productsSaga() {
-  yield takeLatest(types.ADD_PRODUCT_REQUEST, createProduct);
-  yield takeLatest(types.UPDATE_PRODUCT_REQUEST, updateProduct);
-  yield takeLatest(types.DELETE_PRODUCT_REQUEST, deleteProduct);
+  yield takeLatest(types.ADD_PRODUCT_REQUEST, createItem);
+  yield takeLatest(types.UPDATE_PRODUCT_REQUEST, updateItem);
+  yield takeLatest(types.DELETE_PRODUCT_REQUEST, deleteItem);
 }
 
 export default productsSaga;

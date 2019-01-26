@@ -91,10 +91,8 @@ class AdminEditProduct extends Component {
   };
 
   render() {
-    console.log(this.state)
     const { properties } = this.props;
     const { product } = this.state;
-    console.log(properties);
 
     /*const filteredProps = properties.filter(item => {
       return !product.properties.some(productProp => productProp.prop_id._str === item._id._str)

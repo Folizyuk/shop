@@ -9,6 +9,8 @@ import { subscribeProducts, unsubscribeProducts } from '../../actions/actionCrea
 import Product from './ProductItem';
 import Helpers from '../../helpers/index';
 
+import * as $ from 'jquery';
+
 class ProductList extends Component {
 
   componentDidMount() {

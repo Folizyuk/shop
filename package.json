@@ -12,6 +12,7 @@
     "classnames": "^2.2.6",
     "connected-react-router": "^4.5.0",
     "history": "^4.7.2",
+    "jquery": "^3.3.1",
     "meteor-node-stubs": "^0.4.1",
     "meteor-redux-middlewares": "^3.0.7",
     "prop-types": "^15.6.2",
