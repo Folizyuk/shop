@@ -1,6 +1,11 @@
 import React, { Component } from 'react';
 
 class Product extends Component {
+
+  addToCart = () => {
+    this.props.addProductToCart(this.props.product);
+  };
+
   render() {
     const { product } = this.props;
 
@@ -10,7 +15,7 @@ class Product extends Component {
         <img src={product.image}/>
         <div className="product-item--footer">
           <div className="price">${product.price}</div>
-          <button className="btn-primary">buy</button>
+          <button className="btn-primary" onClick={this.addToCart}>buy</button>
         </div>
       </div>
     )

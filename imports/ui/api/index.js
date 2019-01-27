@@ -23,3 +23,9 @@ export const signUpUser = (user) => {
 export const signInUser = (user) => {
   return ApiService.post(`/myusers/mylogin`, user);
 };
+
+/** CART */
+
+export const addProductToCart = (product) => {
+  return ApiService.post(`/cart`, product);
+};

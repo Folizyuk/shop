@@ -14,7 +14,6 @@ class LoginModal extends Component {
     this.state = {
       show: true,
 
-      username: '',
       email: '',
       password: '',
     };
@@ -32,8 +31,8 @@ class LoginModal extends Component {
   };
 
   login = () => {
-    const { email, username, password } = this.state;
-    this.props.loginUser({email, username, password});
+    const { email, password } = this.state;
+    this.props.loginUser({ email, password });
   };
 
   onChangeFormValue = e => {
@@ -57,11 +56,6 @@ class LoginModal extends Component {
               <label htmlFor="email">email</label>
               <input id="email" type="text" name="email"
                      value={this.state.email} onChange={this.onChangeFormValue}/>
-            </div>
-            <div>
-              <label htmlFor="username">username</label>
-              <input id="username" type="text" name="username"
-                     value={this.state.username} onChange={this.onChangeFormValue}/>
             </div>
             <div>
               <label htmlFor="password">password</label>

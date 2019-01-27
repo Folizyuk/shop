@@ -1,12 +1,23 @@
+import { store } from './../store';
+
 export default class ApiService {
+
+  static getHeaders() {
+    const { user } = store.getState();
+    const headers = {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+    };
+
+    if (user.id) headers['Authorization'] = `Bearer ${user.token}`;
+
+    return headers;
+  }
 
   static get(url) {
     const requestOptions = new Request(url, {
       method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-      }
+      headers: ApiService.getHeaders()
     });
 
     return fetch(requestOptions)
@@ -21,10 +32,7 @@ export default class ApiService {
   static post(url, data) {
     const requestOptions = new Request(url, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-      },
+      headers: ApiService.getHeaders(),
       body: JSON.stringify({...data})
     });
 
@@ -40,10 +48,7 @@ export default class ApiService {
   static put(url, data) {
     const requestOptions = new Request(url, {
       method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-      },
+      headers: ApiService.getHeaders(),
       body: JSON.stringify({...data})
     });
 
@@ -59,10 +64,7 @@ export default class ApiService {
   static delete(url) {
     const requestOptions = new Request(url, {
       method: 'DELETE',
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-      },
+      headers: ApiService.getHeaders(),
       //body: JSON.stringify({token})
     });
 

@@ -24,15 +24,25 @@ function* signUser(action) {
 
   const { response, error } = yield call(signInUser, user);
   if (response) {
+    yield put({type: types.USER_LOGIN_SUCCESS, payload: response});
     yield put({type: types.HIDE_MODAL});
   } else {
     yield put(showModal(types.MODAL_TYPE_ALERT, { text: error.reason }));
   }
 }
 
+
+function* signoutUser(action) {
+  const { user } = action.payload;
+
+  yield put({type: types.USER_LOGOUT_SUCCESS});
+}
+
+
 function* usersSaga() {
   yield takeLatest(types.USER_REGISTER_REQUEST, registerUser);
   yield takeLatest(types.USER_LOGIN_REQUEST, signUser);
+  yield takeLatest(types.USER_LOGOUT_REQUEST, signoutUser);
 }
 
 export default usersSaga;

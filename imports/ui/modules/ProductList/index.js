@@ -6,10 +6,9 @@ import { withRouter } from 'react-router';
 //import AccountsUIWrapper from './AccountsUIWrapper';
 
 import { subscribeProducts, unsubscribeProducts } from '../../actions/actionCreators';
+import { addProductToCart } from '../../actions/cartCreators';
 import Product from './ProductItem';
 import Helpers from '../../helpers/index';
-
-import * as $ from 'jquery';
 
 class ProductList extends Component {
 
@@ -30,7 +29,13 @@ class ProductList extends Component {
     return (
       <div className="product-list shadow-bar">
         {
-          this.props.products.map(item => <Product product={item} key={item._id}/>)
+          this.props.products.map(item =>
+            <Product
+              product={item}
+              key={item._id}
+              addProductToCart={this.props.addProductToCart}
+            />
+          )
         }
       </div>
     );
@@ -45,7 +50,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => bindActionCreators({
   subscribeProducts,
-  unsubscribeProducts
+  unsubscribeProducts,
+  addProductToCart
 }, dispatch);
 
 export default withRouter(connect(

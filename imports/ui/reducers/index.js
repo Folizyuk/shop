@@ -2,6 +2,7 @@ import { combineReducers } from 'redux'
 import products from './products';
 import product from './product';
 import modal from './modalReducer';
+import user from './user';
 
 /*PERSIST*/
 import { persistReducer } from 'redux-persist'
@@ -22,6 +23,7 @@ const rootReducer = combineReducers ({
   products,
   product,
   modal,
+  user,
 });
 
 export default persistReducer(rootPersistConfig, rootReducer);

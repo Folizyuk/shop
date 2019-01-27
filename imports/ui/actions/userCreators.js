@@ -19,3 +19,10 @@ export const loginUser = ({email, username, password}) => {
     }
   }
 };
+
+export const logoutUser = () => {
+  return {
+    type: types.USER_LOGOUT_REQUEST,
+    payload: {}
+  }
+};

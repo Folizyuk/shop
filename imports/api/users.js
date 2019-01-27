@@ -57,6 +57,7 @@ if (Meteor.isServer) {
         id: result.userId,
         token: stampedLoginToken.token,
         tokenExpires: tokenExpiration,
+        username: user.username
       },
     });
 
