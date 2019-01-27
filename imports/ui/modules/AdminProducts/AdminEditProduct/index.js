@@ -4,7 +4,9 @@ import { connect } from 'react-redux';
 
 import {
   updateProduct,
-  addProduct
+  addProduct,
+  subscribeProduct,
+  unsubscribeProduct
 } from '../../../actions/productsCreators';
 
 import './style.css';
@@ -33,15 +35,17 @@ class AdminEditProduct extends Component {
   }
 
   componentDidMount() {
-    //if (this.state.productId) this.props.subscribeProduct(this.state.productId);
+    if (this.state.productId) this.props.subscribeProduct(this.state.productId);
   }
 
   componentWillUnmount() {
-    //if (this.props.match.params.id) this.props.unsubscribeProduct();
+    if (this.props.match.params.id) this.props.unsubscribeProduct();
   }
 
   componentWillReceiveProps(nextProps) {
-    if (this.state.productId) this.setState({product: {...this.state.product, ...nextProps.product}});
+    if (this.state.productId && !this.state.product._id) {
+      this.setState({product: {...this.state.product, ...nextProps.product}});
+    }
   }
 
   onChange = (e) => {
@@ -190,6 +194,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => bindActionCreators({
   updateProduct,
   addProduct,
+  subscribeProduct,
+  unsubscribeProduct
 }, dispatch);
 
 export default connect(

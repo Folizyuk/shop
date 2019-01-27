@@ -24,7 +24,7 @@ function* createItem(action) {
 function* updateItem(action) {
   const { product } = action.payload;
 
-  const { response, error } = call(updateProduct, product);
+  const { response, error } = yield call(updateProduct, product);
   if (response) {
     yield put(push(`/admin/products`));
   } else {

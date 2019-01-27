@@ -22,7 +22,7 @@ function products(state = initialState, action) {
       };
     case STOP_SUBSCRIPTION:
       return action.payload === PRODUCTS
-        ? { ...state, subscriptionStop: true }
+        ? { ...initialState, subscriptionStop: true }
         : state;
     default:
       return state

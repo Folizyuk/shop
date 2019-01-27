@@ -45,6 +45,14 @@ if (Meteor.isServer) {
   // Handle errors specifically for the login routes correctly
   JsonRoutes.ErrorMiddleware.use('/products', RestMiddleware.handleErrorAsJson);
 
+  JsonRoutes.setResponseHeaders({
+    "Cache-Control": "no-store",
+    "Pragma": "no-cache",
+    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Methods": "GET, PUT, POST, DELETE, OPTIONS",
+    "Access-Control-Allow-Headers": "Content-Type, Accept, Authorization, X-Requested-With"
+  });
+
   JsonRoutes.add('options', '/products', function (req, res) {
     JsonRoutes.sendResult(res);
   });
