@@ -10,12 +10,9 @@ export default class ApiService {
     });
 
     return fetch(requestOptions)
-      .then(response => {
-        if(response.ok) return response.json();
-        throw new Error(`Request rejected with status ${response.status}`);
-      })
-      .then(data => data)
-      .catch(error => null);
+      .then(response => response.json())
+      .then(response => { response })
+      .catch(error => { error });
   }
 
   static post(url, data) {
@@ -29,24 +26,12 @@ export default class ApiService {
     });
 
     return fetch(requestOptions)
+      .then(response => response.json())
       .then(response => {
-        console.log(response)
-        if (response.status === 200) {
-          return response.json()
-        }
-
-        return response.json()
+        if (response.error) throw response;
+        else return { response };
       })
-      .then(data => {
-        console.log(data)
-        console.log(data.type)
-        console.log(data.message)
-        return data;
-      })
-      .catch(error => {
-        console.log(error)
-        return error;
-      });
+      .catch(error => ({ error }));
   }
 
   static put(url, data) {
@@ -60,12 +45,15 @@ export default class ApiService {
     });
 
     return fetch(requestOptions)
-      .then(response => {
-        if(response.ok) return response.json();
-        throw new Error(`Request rejected with status ${response.status}`);
+      .then(response => response.json())
+      .then(data => {
+        if (data.error) {
+          console.log('throw')
+          throw new Error(data.error, data.reason);
+        }
+        else return data;
       })
-      .then(data => data)
-      .catch(error => null);
+      .catch(error => error);
   }
 
   static delete(url) {
@@ -80,10 +68,9 @@ export default class ApiService {
 
     return fetch(requestOptions)
       .then(response => {
-        if(response.ok) return response.json();
-        throw new Error(`Request rejected with status ${response.status}`);
+        return response.json()
       })
       .then(data => data)
-      .catch(error => null);
+      .catch(error => error);
   }
 }

@@ -33,7 +33,7 @@ class AlertModal extends Component {
       <div className={modalClass} onClick={this.closeByClickOutside}>
         <div className="modal-content modal-small">
           <div className="modal-header">
-            <span className="title">Warning!</span>
+            <span className="title">Alert!</span>
             <span className="close" onClick={this.closeModal}>&#10005;</span>
           </div>
           <div className="modal-body">

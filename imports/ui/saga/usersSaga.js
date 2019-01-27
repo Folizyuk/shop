@@ -2,6 +2,7 @@ import { Meteor } from 'meteor/meteor';
 import { takeLatest, call, put } from 'redux-saga/effects';
 import * as types from './../actions/actionTypes';
 import { loginUser } from './../actions/userCreators';
+import { showModal } from './../actions/modalsCreators';
 import {
   signUpUser,
   signInUser
@@ -9,38 +10,23 @@ import {
 
 function* registerUser(action) {
   const { user } = action.payload;
-  try {
-    let data;
-    try {
-      data = yield call(signUpUser, user);
-    } catch (err) {
-      console.warn('error', e);
-      return;
-    }
 
-    console.log(Meteor.user())
-    console.log(Meteor.userId())
-    const { id, token, tokenExpires } = data;
-    //yield put(loginUser(user));
-  } catch (e) {
-    console.warn('error', e);
+  const { response, error } = yield call(signUpUser, user);
+  if (response) {
+    yield put(loginUser(user));
+  } else {
+    yield put(showModal(types.MODAL_TYPE_ALERT, { text: error.reason }));
   }
 }
 
 function* signUser(action) {
-  console.log(action)
   const { user } = action.payload;
-  try {
-    const data = yield call(signInUser, user);
-    console.log(data)
-    console.log(Meteor.userId())
-    console.log(Meteor.user())
 
-    const { id, token, tokenExpires } = data;
-
-    //yield put(push(`/admin/products`));
-  } catch (e) {
-    console.warn('error', e);
+  const { response, error } = yield call(signInUser, user);
+  if (response) {
+    yield put({type: types.HIDE_MODAL});
+  } else {
+    yield put(showModal(types.MODAL_TYPE_ALERT, { text: error.reason }));
   }
 }
 
