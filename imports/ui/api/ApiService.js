@@ -31,12 +31,16 @@ export default class ApiService {
     return fetch(requestOptions)
       .then(response => {
         console.log(response)
-        return response.json();
-        //if(response.ok) return response.json();
-        //throw new Error(`Request rejected with status ${response.status}`);
+        if (response.status === 200) {
+          return response.json()
+        }
+
+        return response.json()
       })
       .then(data => {
         console.log(data)
+        console.log(data.type)
+        console.log(data.message)
         return data;
       })
       .catch(error => {
