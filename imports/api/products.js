@@ -10,14 +10,22 @@ import Helpers from '../ui/helpers';
 
 export const Products = new Mongo.Collection('products', options);
 Products.schema = new SimpleSchema({
-  name: {type: String, min: 3},
+  name: {type: String, min: 3, required: true},
   image: {type: String, optional: true},
+  brand: {type: String, optional: true},
   price: {type: Number, required: true},
-  properties: {type: Array},
+  screen_size: {type: Number, optional: true, min: 1},
+  connectivity: {type: String, optional: true, min: 2},
+  processor: {type: String, optional: true, min: 2},
+  camera_resolution: {type: Number, optional: true, min: 0.1},
+  storage_capacity: {type: Number, optional: true, min: 0.1},
+  color: {type: String, optional: true,  min: 3},
+
+  /*properties: {type: Array},
   'properties.$': Object,
   'properties.$.prop_id': Object,
   'properties.$.prop_id._str': String,
-  'properties.$.value': SimpleSchema.oneOf(String, Number),
+  'properties.$.value': SimpleSchema.oneOf(String, Number),*/
 });
 
 if (Meteor.isServer) {
@@ -34,11 +42,7 @@ if (Meteor.isServer) {
     );
   });
 
-
-  JsonRoutes.Middleware.use(JsonRoutes.Middleware.parseBearerToken);
-  JsonRoutes.Middleware.use(JsonRoutes.Middleware.authenticateMeteorUserByToken);
-
-// Handle errors specifically for the login routes correctly
+  // Handle errors specifically for the login routes correctly
   JsonRoutes.ErrorMiddleware.use('/products', RestMiddleware.handleErrorAsJson);
 
   JsonRoutes.add('options', '/products', function (req, res) {
@@ -55,7 +59,8 @@ if (Meteor.isServer) {
     const product = req.body;
 
     try {
-      Products.schema.validate(product, {keys: ['name', 'properties']});
+      //Products.schema.validate(product, {keys: ['name']});
+      Products.schema.validate(product);
     } catch (e) {
       throw get400('not-valid', e.message);
     }

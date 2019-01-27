@@ -1,9 +1,6 @@
 import { combineReducers } from 'redux'
 import products from './products';
-import properties from './properties';
 import product from './product';
-import filters from './filters';
-import filter from './filter';
 import modal from './modalReducer';
 
 /*PERSIST*/
@@ -16,20 +13,14 @@ const rootPersistConfig = {
   storage: storageSession,
   blacklist: [
     'products',
-    'properties',
     'product',
-    'filters',
-    'filter',
     'modalReducer',
   ] // list of components which will not be persisted
 };
 
 const rootReducer = combineReducers ({
   products,
-  properties,
   product,
-  filters,
-  filter,
   modal,
 });
 

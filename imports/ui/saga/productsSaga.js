@@ -1,6 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import { takeLatest, put, call } from 'redux-saga/effects';
 import * as types from './../actions/actionTypes';
+import { showModal } from './../actions/modalsCreators';
 import { push } from "connected-react-router";
 
 import {
@@ -11,30 +12,32 @@ import {
 
 function* createItem(action) {
   const { product } = action.payload;
-  try {
-    yield call(createProduct, product);
+
+  const { response, error } = yield call(createProduct, product);
+  if (response) {
     yield put(push(`/admin/products`));
-  } catch (e) {
-    console.warn('error', e);
+  } else {
+    yield put(showModal(types.MODAL_TYPE_ALERT, { text: error.reason }));
   }
 }
 
 function* updateItem(action) {
   const { product } = action.payload;
-  try {
-    yield call(updateProduct, product);
+
+  const { response, error } = call(updateProduct, product);
+  if (response) {
     yield put(push(`/admin/products`));
-  } catch (e) {
-    console.warn('error', e);
+  } else {
+    yield put(showModal(types.MODAL_TYPE_ALERT, { text: error.reason }));
   }
 }
 
 function* deleteItem(action) {
   const { id } = action.payload;
-  try {
-    yield call(deleteProduct, id._str);
-  } catch (e) {
-    console.warn('error', e);
+
+  const { response, error } = yield call(deleteProduct, id._str);
+  if (error) {
+    yield put(showModal(types.MODAL_TYPE_ALERT, { text: error.reason }));
   }
 }
 

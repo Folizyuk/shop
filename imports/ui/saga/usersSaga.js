@@ -30,9 +30,9 @@ function* signUser(action) {
   }
 }
 
-function* filtersSaga() {
+function* usersSaga() {
   yield takeLatest(types.USER_REGISTER_REQUEST, registerUser);
   yield takeLatest(types.USER_LOGIN_REQUEST, signUser);
 }
 
-export default filtersSaga;
+export default usersSaga;

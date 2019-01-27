@@ -2,24 +2,12 @@ import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
-import Helpers from './../../../helpers'
-
 import {
-  subscribeProduct,
-  unsubscribeProduct,
   updateProduct,
   addProduct
 } from '../../../actions/productsCreators';
 
-import {
-  subscribeProperties,
-  unsubscribeProperties
-} from '../../../actions/propertiesCreators';
-
-//import './style.css';
-const emptyProp = () => {
-  return {prop_id: Helpers.uuidv4(), value: ''};
-};
+import './style.css';
 
 class AdminEditProduct extends Component {
 
@@ -28,20 +16,28 @@ class AdminEditProduct extends Component {
     this.state = {
       product: {
         price: 0,
-        properties: [{...emptyProp()}]
+        brand: 'Apple',
+        screen_size: 0,
+        connectivity: '',
+        processor: '',
+        camera_resolution: 0,
+        storage_capacity: 0,
+        color: ''
       },
-      productId: this.props.match.params.id
+      productId: this.props.match.params.id,
+
+      brands: [
+        'Apple', 'Samsung'
+      ],
     };
   }
 
   componentDidMount() {
-    if (this.state.productId) this.props.subscribeProduct(this.state.productId);
-    this.props.subscribeProperties();
+    //if (this.state.productId) this.props.subscribeProduct(this.state.productId);
   }
 
   componentWillUnmount() {
-    if (this.props.match.params.id) this.props.unsubscribeProduct();
-    this.props.unsubscribeProperties();
+    //if (this.props.match.params.id) this.props.unsubscribeProduct();
   }
 
   componentWillReceiveProps(nextProps) {
@@ -54,35 +50,45 @@ class AdminEditProduct extends Component {
     });
   };
 
-  onChangeProperty = (value, index) => {
-    const properties = this.state.product.properties.slice();
-    properties[index] = {...properties[index], [value.key]: value.value};
-    this.setState({
-      product: {...this.state.product, properties}
-    });
-  };
-
   onChangePrice = (e) => {
     const price = Number(e.target.value);
     if (price <= 0) return;
 
-    this.setState({
-      product: {...this.state.product, price: Number(e.target.value)}
-    });
+    this.setState({ product: {...this.state.product, price: price} });
   };
 
-  onAddEmptyProp = (e) => {
-    this.setState({
-      product: {...this.state.product, properties: [...this.state.product.properties, {...emptyProp()}]}
-    });
+  onChangeScreenSize = (e) => {
+    const screen_size = Number(e.target.value);
+    if (screen_size <= 0) return;
+
+    this.setState({ product: {...this.state.product, screen_size: screen_size} });
   };
 
-  onRemoveProp = (index) => {
-    const properties = this.state.product.properties.slice();
-    properties.splice(index, 1);
-    this.setState({
-      product: {...this.state.product, properties}
-    });
+  onChangeConnectivity = (e) => {
+    this.setState({ product: { ...this.state.product, connectivity: e.target.value} });
+  };
+
+  onChangeProcessor = (e) => {
+    this.setState({ product: { ...this.state.product, processor: e.target.value} });
+  };
+
+  onChangeCameraResolution = (e) => {
+    const camera_resolution = Number(e.target.value);
+    this.setState({ product: { ...this.state.product, camera_resolution: camera_resolution} });
+  };
+
+  onChangeStorageCapacity = (e) => {
+    const storage_capacity = Number(e.target.value);
+    this.setState({ product: { ...this.state.product, storage_capacity: storage_capacity } });
+  };
+
+  onChangeColor = (e) => {
+    this.setState({ product: { ...this.state.product, color: e.target.value } });
+  };
+
+  onChangeBrand = (e) => {
+    const brand = e.target.value;
+    this.setState({ product: { ...this.state.product, brand: brand }});
   };
 
   saveProduct = () => {
@@ -90,75 +96,81 @@ class AdminEditProduct extends Component {
     else this.props.addProduct(this.state.product);
   };
 
+  handleSelectedFile = event => {
+    const file = event.target.files[0];
+    const fileReader = new FileReader();
+    fileReader.onloadend = (e) => {
+      const product = Object.assign({}, this.state.product, { image: e.target.result });
+      this.setState({ product });
+    };
+    fileReader.readAsDataURL(file);
+  };
+
   render() {
-    const { properties } = this.props;
     const { product } = this.state;
 
-    /*const filteredProps = properties.filter(item => {
-      return !product.properties.some(productProp => productProp.prop_id._str === item._id._str)
-    });*/
-
-    const getPropsForSelect = (prop) => {
-      const filteredProps = properties.filter(item => {
-        return !product.properties.some(productProp => productProp.prop_id._str === item._id._str)
-          || item._id._str === prop.prop_id._str;
-      });
-      return filteredProps;
-    };
-
     return (
-      <div>
+      <div className="admin-product">
         {
-          this.state.productId ? 'edit product' : 'create product'
+          <h3> { this.state.productId ? 'edit product' : 'create product' } </h3>
         }
         <div>
           {
             product &&
             <form>
-              <div>
+              <div className="form-row">
                 <label>name</label>
                 <input type="text" name="name" defaultValue={product.name} onChange={this.onChange}/>
               </div>
-              {
-                product.properties.map((prop, i) => {
-                  return (
-                    <div key={prop.prop_id}>
-                      <label>property</label>
-                      <select defaultValue={prop.prop_id}
-                              onChange={(e) => this.onChangeProperty({
-                                value: Helpers.parseMongoID(e.target.value), key: 'prop_id'}, i)
-                              }>
-                        <option>Select</option>
-                        {
-                          getPropsForSelect(prop).map(p => {
-                            return <option
-                              key={p._id}
-                              value={p._id}>
-                              {p.title}
-                              </option>
-                          })
-                        }
-                      </select>
-                      <input type="text"
-                             value={prop.value}
-                             onChange={(e) => this.onChangeProperty({value: e.target.value, key: 'value'}, i)}
-                      />
-                      {
-                        i === (product.properties.length - 1) &&
-                        <button onClick={this.onAddEmptyProp}>+</button>
-                      }
-                      {
-                        product.properties.length > 1 && <button onClick={() => this.onRemoveProp(i)}>-</button>
-                      }
-                    </div>
-                  )
-                })
-              }
-              <div>
+              <div className="form-row">
                 <label>price</label>
                 <input type="number" value={product.price} onChange={this.onChangePrice}/>
               </div>
-              <div>
+              <div className="form-row">
+                <label>Brand</label>
+                <select value={product.brand}
+                        onChange={this.onChangeBrand}>
+                  <option>Select</option>
+                  {
+                    this.state.brands.map(brand => {
+                      return <option
+                        key={brand}
+                        value={brand}>
+                        { brand }
+                      </option>
+                    })
+                  }
+                </select>
+              </div>
+              <div className="form-row">
+                <label>Screen Size</label>
+                <input type="number" value={product.screen_size} onChange={this.onChangeScreenSize}/>
+              </div>
+              <div className="form-row">
+                <label>Connectivity (Bluetooth, NFC, Wi-Fi, etc...)</label>
+                <input type="text" value={product.connectivity} onChange={this.onChangeConnectivity}/>
+              </div>
+              <div className="form-row">
+                <label>Processor</label>
+                <input type="text" value={product.processor} onChange={this.onChangeProcessor}/>
+              </div>
+              <div className="form-row">
+                <label>Camera Resolution (MP)</label>
+                <input type="number" value={product.camera_resolution} onChange={this.onChangeCameraResolution}/>
+              </div>
+              <div className="form-row">
+                <label>Storage Capacity (GB)</label>
+                <input type="number" value={product.storage_capacity} onChange={this.onChangeStorageCapacity}/>
+              </div>
+              <div className="form-row">
+                <label>Color</label>
+                <input type="text" value={product.color} onChange={this.onChangeColor}/>
+              </div>
+              <div className="form-row">
+                <label>Image</label>
+                <input type="file" name="" id="" onChange={this.handleSelectedFile} />
+              </div>
+              <div className="form-row">
                 <input type="button" value="Save" onClick={this.saveProduct}/>
               </div>
             </form>
@@ -172,17 +184,12 @@ class AdminEditProduct extends Component {
 const mapStateToProps = state => {
   return {
     product: state.product.data,
-    properties: state.properties.data
   }
 };
 
 const mapDispatchToProps = dispatch => bindActionCreators({
-  subscribeProduct,
-  unsubscribeProduct,
   updateProduct,
   addProduct,
-  subscribeProperties,
-  unsubscribeProperties,
 }, dispatch);
 
 export default connect(

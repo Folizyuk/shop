@@ -1,0 +1,17 @@
+.admin-product {
+  padding: 20px;
+}
+
+.admin-product .form-row label {
+  display: block;
+  color: #444444;
+}
+
+.admin-product .form-row {
+  margin-bottom: 10px;
+}
+
+.admin-product .form-row input {
+  width: 300px;
+  height: 20px;
+}

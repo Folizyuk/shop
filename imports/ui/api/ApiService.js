@@ -11,8 +11,11 @@ export default class ApiService {
 
     return fetch(requestOptions)
       .then(response => response.json())
-      .then(response => { response })
-      .catch(error => { error });
+      .then(response => {
+        if (response.error) throw response;
+        else return { response };
+      })
+      .catch(error => ({ error }));
   }
 
   static post(url, data) {
@@ -46,14 +49,11 @@ export default class ApiService {
 
     return fetch(requestOptions)
       .then(response => response.json())
-      .then(data => {
-        if (data.error) {
-          console.log('throw')
-          throw new Error(data.error, data.reason);
-        }
-        else return data;
+      .then(response => {
+        if (response.error) throw response;
+        else return { response };
       })
-      .catch(error => error);
+      .catch(error => ({ error }));
   }
 
   static delete(url) {
@@ -67,10 +67,11 @@ export default class ApiService {
     });
 
     return fetch(requestOptions)
+      .then(response => response.json())
       .then(response => {
-        return response.json()
+        if (response.error) throw response;
+        else return { response };
       })
-      .then(data => data)
-      .catch(error => error);
+      .catch(error => ({ error }));
   }
 }
