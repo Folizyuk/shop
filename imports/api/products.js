@@ -84,7 +84,7 @@ if (Meteor.isServer) {
   JsonRoutes.add('put', '/products/:id', function (req, res, next) {
     const id = req.params.id;
     const {_id, ...product} = req.body;
-    const parsedId = Helpers.parseMongoID(id);
+    const parsedId = Helpers.toMongoID(id);
 
     try {
       Products.schema.validate({...product});
@@ -105,7 +105,7 @@ if (Meteor.isServer) {
 
   JsonRoutes.add('delete', '/products/:id', function (req, res, next) {
     const { _id } = req.params;
-    const parsedId = Helpers.parseMongoID(_id);
+    const parsedId = Helpers.toMongoID(_id);
 
     const product = Products.findOne({_id: parsedId});
     if (!product) throw get404('not-found', `product with id=${_id} not found`);

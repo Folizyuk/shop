@@ -26,3 +26,4 @@ simple:rest
 simple:json-routes
 simple:rest-json-error-handler
 simple:rest-accounts-password
+reywood:publish-composite

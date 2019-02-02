@@ -26,6 +26,14 @@ export const signInUser = (user) => {
 
 /** CART */
 
-export const addProductToCart = (product) => {
+export const addCartItem = (product) => {
   return ApiService.post(`/cart`, product);
+};
+
+export const updateCartItem = (cart) => {
+  return ApiService.put(`/cart/${cart._id._str}`, cart);
+};
+
+export const removeCartItem = (_id) => {
+  return ApiService.delete(`/cart/${_id}`);
 };

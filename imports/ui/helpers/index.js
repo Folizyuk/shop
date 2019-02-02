@@ -1,3 +1,4 @@
+import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
 
 export default class Helpers {
@@ -47,8 +48,10 @@ export default class Helpers {
     return true;
   }
 
-  static parseMongoID(id) {
-    return typeof id === 'string' ? new Meteor.Collection.ObjectID(id) : id;
+  static toMongoID(id) {
+    return typeof id === 'string' ?
+      new Meteor.Collection.ObjectID(id) :
+      new Meteor.Collection.ObjectID(id._str);
   }
 
   static getObjectFromParams(paramsStr) {

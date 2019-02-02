@@ -6,7 +6,7 @@ import { withRouter } from 'react-router';
 //import AccountsUIWrapper from './AccountsUIWrapper';
 
 import { subscribeProducts, unsubscribeProducts } from '../../actions/actionCreators';
-import { addProductToCart } from '../../actions/cartCreators';
+import { addCartItem } from '../../actions/cartCreators';
 import Product from './ProductItem';
 import Helpers from '../../helpers/index';
 
@@ -33,7 +33,7 @@ class ProductList extends Component {
             <Product
               product={item}
               key={item._id}
-              addProductToCart={this.props.addProductToCart}
+              addCartItem={this.props.addCartItem}
             />
           )
         }
@@ -51,7 +51,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => bindActionCreators({
   subscribeProducts,
   unsubscribeProducts,
-  addProductToCart
+  addCartItem
 }, dispatch);
 
 export default withRouter(connect(

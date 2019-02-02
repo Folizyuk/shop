@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 class Product extends Component {
 
   addToCart = () => {
-    this.props.addProductToCart(this.props.product);
+    this.props.addCartItem(this.props.product._id._str);
   };
 
   render() {

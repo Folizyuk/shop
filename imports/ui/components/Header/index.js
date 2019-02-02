@@ -45,6 +45,7 @@ class Header extends Component {
         {
           id && (
             <div>
+              <NavLink to="/cart" activeClassName='active'>cart</NavLink>
               <span>{ username }</span>/
               <span onClick={this.logout}>Logout</span>
             </div>
