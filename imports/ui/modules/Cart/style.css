@@ -1,4 +1,17 @@
 .cart-list {
+  margin: 0 auto;
+}
+
+.cart-list table{
   border: 1px solid #ccc;
+}
+
+.total-price {
+  text-align: right;
+}
+
+.btn.order {
+  display: block;
+  margin: 0 auto;
 }
 

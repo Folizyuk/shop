@@ -33,49 +33,70 @@ class Cart extends Component {
     this.props.deleteCartItem(id);
   };
 
+  makeOrder = () => {
+    console.log('order')
+  };
+
   render() {
     return (
-      <div>
-        {!this.props.cartItems.length && <div>Your cart is empty!</div>}
+      <div className="cart-list">
         {
+          !this.props.cartItems.length ? <div>Your cart is empty!</div> :
           this.props.cartItems.length && (
-            <table className="cart-list">
-              <thead>
-              <tr>
-                <th>Name</th>
-                <th>Price</th>
-                <th>Count</th>
-                <th>Change count</th>
-                <th>Delete</th>
-              </tr>
-              </thead>
-              <tbody>
-              {
-                this.props.cartItems.map(item => {
-                  return (
-                    <tr key={item._id}>
-                      <td>
-                        {item.product && item.product.name}
-                      </td>
-                      <td>
-                        {item.product && item.product.price}
-                      </td>
-                      <td>
-                        {item.count}
-                      </td>
-                      <td>
-                        <button onClick={this.onUpdateCartItem(item, -1)}>-</button>
-                        <button onClick={this.onUpdateCartItem(item, 1)}>+</button>
-                      </td>
-                      <td>
-                        <button onClick={this.onDeleteCartItem(item._id)}>X</button>
-                      </td>
-                    </tr>
-                  )
-                })
-              }
-              </tbody>
-            </table>
+            <div>
+              <table>
+                <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Price</th>
+                  <th>Count</th>
+                  <th>Sum</th>
+                  <th>Change count</th>
+                  <th>Delete</th>
+                </tr>
+                </thead>
+                <tbody>
+                {
+                  this.props.cartItems.map(item => {
+                    return (
+                      <tr key={item._id}>
+                        <td>
+                          {item.product && item.product.name}
+                        </td>
+                        <td>
+                          {item.product && item.product.price}
+                        </td>
+                        <td>
+                          {item.count}
+                        </td>
+                        <td>
+                          {item.count * item.product.price}
+                        </td>
+                        <td>
+                          <button onClick={this.onUpdateCartItem(item, -1)}>-</button>
+                          <button onClick={this.onUpdateCartItem(item, 1)}>+</button>
+                        </td>
+                        <td>
+                          <button onClick={this.onDeleteCartItem(item._id)}>X</button>
+                        </td>
+                      </tr>
+                    )
+                  })
+                }
+                </tbody>
+              </table>
+              <div className="total-price">
+                Total:
+                {
+                  this.props.cartItems.reduce((total, item) => {
+                    return total + (item.count * item.product.price);
+                  }, 0)
+                }
+              </div>
+              <div>
+                <button className="btn order" onClick={this.makeOrder}>Order</button>
+              </div>
+            </div>
           )
         }
       </div>

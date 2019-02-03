@@ -8,7 +8,7 @@ const mainRoutes = (
   <div>
     <Route exact path='/' component={Home}/>
     <Route path='/admin' component={Admin} />
-    <Route exact path='/cart' component={Cart} />
+    <Route path='/cart' component={Cart} />
   </div>
 );
 
