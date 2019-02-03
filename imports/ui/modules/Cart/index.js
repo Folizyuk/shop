@@ -9,6 +9,7 @@ import {
   updateCartItem,
   deleteCartItem
 } from '../../actions/cartCreators';
+import { addOrdersItem } from '../../actions/ordersCreators';
 
 import './style.css';
 
@@ -34,7 +35,16 @@ class Cart extends Component {
   };
 
   makeOrder = () => {
-    console.log('order')
+    const order = {
+      products: this.props.cartItems.map(item => {
+        return {
+          productId: item.product._id,
+          count: item.count
+        }
+      })
+    };
+
+    this.props.addOrdersItem(order);
   };
 
   render() {
@@ -115,7 +125,8 @@ const mapDispatchToProps = dispatch => bindActionCreators({
   unsubscribeCart,
   addCartItem,
   updateCartItem,
-  deleteCartItem
+  deleteCartItem,
+  addOrdersItem
 }, dispatch);
 
 export default connect(

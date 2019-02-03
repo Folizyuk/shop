@@ -37,3 +37,9 @@ export const updateCartItem = (cart) => {
 export const removeCartItem = (_id) => {
   return ApiService.delete(`/cart/${_id}`);
 };
+
+/** ORDERS */
+
+export const addOrderItem = (order) => {
+  return ApiService.post(`/orders`, order);
+};

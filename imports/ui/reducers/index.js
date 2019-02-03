@@ -4,6 +4,7 @@ import product from './product';
 import modal from './modalReducer';
 import user from './user';
 import cart from './cart';
+import orders from './orders';
 
 /*PERSIST*/
 import { persistReducer } from 'redux-persist'
@@ -18,6 +19,7 @@ const rootPersistConfig = {
     'product',
     'modalReducer',
     'cart',
+    'orders',
   ] // list of components which will not be persisted
 };
 
@@ -27,6 +29,7 @@ const rootReducer = combineReducers ({
   modal,
   user,
   cart,
+  orders
 });
 
 export default persistReducer(rootPersistConfig, rootReducer);
