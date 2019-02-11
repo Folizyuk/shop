@@ -1,0 +1,19 @@
+.product_detail {
+  width: 600px;
+  margin: 50px auto 0 auto;
+}
+
+.product_detail img{
+  height: 400px;
+  width: 400px;
+  margin: 0 auto;
+  display: block;
+}
+
+.product_detail table tr td:last-child {
+  padding-left: 50px;
+}
+
+.product_detail table {
+  margin: 0 auto;
+}

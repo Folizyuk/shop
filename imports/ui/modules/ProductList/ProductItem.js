@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 
 class Product extends Component {
 
@@ -11,7 +12,9 @@ class Product extends Component {
 
     return (
       <div className="product-item">
-        <h3>{product.name}</h3>
+        <h3>
+          <Link to={`/product/${product._id._str}`}>{product.name}</Link>
+        </h3>
         <img src={product.image}/>
         <div className="product-item--footer">
           <div className="price">${product.price}</div>
