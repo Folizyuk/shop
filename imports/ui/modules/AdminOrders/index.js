@@ -5,7 +5,8 @@ import Helpers from './../../helpers';
 
 import {
   subscribeOrders,
-  unsubscribeOrders
+  unsubscribeOrders,
+  deleteOrdersItem
 } from '../../actions/ordersCreators';
 
 import './style.css';
@@ -23,11 +24,15 @@ class AdminOrders extends Component {
 
   };
 
+  deleteOrder = order => e => {
+    this.props.deleteOrdersItem(order._id);
+  };
+
   render() {
     return (
       <div className="cart-list">
         {
-          !this.props.orders.length ? <div>Your cart is empty!</div> :
+          !this.props.orders.length ? <div>No orders yet!</div> :
             this.props.orders.length && (
               <div>
                 {
@@ -48,7 +53,6 @@ class AdminOrders extends Component {
                           <tbody>
                           {
                             order.products.map(product => {
-                              console.log(product)
                               return (
                                 <tr key={Helpers.uuidv4()}>
                                   <td>
@@ -77,6 +81,7 @@ class AdminOrders extends Component {
                         </table>
                         <div>
                           <button className="btn order" onClick={this.makeOrder}>Order</button>
+                          <button className="btn order" onClick={this.deleteOrder(order)}>Delete Order</button>
                         </div>
                       </div>
                     );
@@ -99,7 +104,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => bindActionCreators({
   subscribeOrders,
-  unsubscribeOrders
+  unsubscribeOrders,
+  deleteOrdersItem
 }, dispatch);
 
 export default connect(

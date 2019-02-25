@@ -39,18 +39,19 @@ export const addOrdersItem = (order) => {
   }
 };
 
+export const deleteOrdersItem = (id) => {
+  return {
+    type: types.ORDERS_DELETE_ITEM_REQUEST,
+    payload: {
+      id
+    }
+  }
+};
+
 /*export const updateOrdersItem = (cart, properties) => {
   return {
     type: types.CART_UPDATE_ITEM_REQUEST,
     payload: { cart: { ...cart, ...properties } }
   }
 };
-
-export const deleteOrdersItem = (id) => {
-  return {
-    type: types.CART_DELETE_ITEM_REQUEST,
-    payload: {
-      id
-    }
-  }
-};*/
+*/

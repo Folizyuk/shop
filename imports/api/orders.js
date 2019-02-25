@@ -90,39 +90,17 @@ if (Meteor.isServer) {
     JsonRoutes.sendResult(res, { data: Orders.findOne({_id: _id}) });
   });
 
-  /*JsonRoutes.add('put', '/orders/:id', function (req, res, next) {
-    const id = req.params.id;
-    const {_id, ...product} = req.body;
-    const parsedId = Helpers.toMongoID(id);
-
-    try {
-      Orders.schema.validate({...product});
-    } catch (e) {
-      throw get400('not-valid', e.message);
-    }
-
-    const findProduct = Orders.findOne({_id: parsedId});
-    if (!findProduct) throw get404('not-found', `product with id=${_id} not found`);
-
-    const update = Orders.update(parsedId, { $set: { ...product } });
-    if (!update) throw get400('error', `product with id=${_id} was not updated`);
-
-    JsonRoutes.sendResult(res, {
-      data: Orders.findOne({_id: parsedId})
-    });
-  });
-
   JsonRoutes.add('delete', '/orders/:id', function (req, res, next) {
     const { _id } = req.params;
     const parsedId = Helpers.toMongoID(_id);
 
     const product = Orders.findOne({_id: parsedId});
-    if (!product) throw get404('not-found', `product with id=${_id} not found`);
+    if (!product) throw get404('not-found', `order with id=${_id} not found`);
 
     const result = Orders.remove(parsedId);
-    if (!result) throw get400('error', `product with id=${_id} was not deleted`);
+    if (!result) throw get400('error', `order with id=${_id} was not deleted`);
 
     JsonRoutes.sendResult(res, { data: product });
-  });*/
+  });
 
 }
