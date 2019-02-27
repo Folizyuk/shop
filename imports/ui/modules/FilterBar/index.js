@@ -19,7 +19,6 @@ class FilterBar extends Component {
 
   componentDidMount() {
     this.debounce = Helpers.debounce();
-    this.props.subscribeProducts();
     this.initBarAccordingToParams();
   }
 
@@ -43,7 +42,6 @@ class FilterBar extends Component {
     const queryStr = Helpers.getQueryStringFromObj(currentParams);
 
     if (this.state.minPrice >=0 && this.state.maxPrice >= 0) {
-      console.log('2', queryStr)
       this.debounce(() => {
         this.props.replace({ search: `?${queryStr}` });
       }, 300);
@@ -71,7 +69,7 @@ class FilterBar extends Component {
 
 const mapStateToProps = state => {
   return {
-    products: state.products.data,
+    //products: state.products.data,
   }
 };
 

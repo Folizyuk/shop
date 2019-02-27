@@ -15,8 +15,16 @@ export const subscribeProducts = (data) => {
   return startSubscription({
     key: types.PRODUCTS,
     get: () => {
-      return {
-        products: Products.find().fetch(),
+      const {minPrice, maxPrice} = data;
+
+      if (typeof minPrice !== 'undefined' && typeof maxPrice !== 'undefined') {
+        return {
+          products: Products.find({price: { $gte: minPrice, $lte: maxPrice}}).fetch(),
+        }
+      } else {
+        return {
+          products: Products.find({}).fetch(),
+        }
       }
     },
     subscribe: () => Meteor.subscribe(types.PRODUCTS, checkUpdate()),
