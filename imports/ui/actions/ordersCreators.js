@@ -32,10 +32,10 @@ export const subscribeOrders = () => {
 export const unsubscribeOrders = () => stopSubscription(types.ORDERS);
 
 
-export const addOrdersItem = (order) => {
+export const addOrdersItem = (order, cartItems) => {
   return {
     type: types.ORDERS_ADD_ITEM_REQUEST,
-    payload: { order }
+    payload: { order, cartItems }
   }
 };
 

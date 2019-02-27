@@ -44,7 +44,7 @@ class Cart extends Component {
       })
     };
 
-    this.props.addOrdersItem(order);
+    this.props.addOrdersItem(order, this.props.cartItems);
   };
 
   render() {

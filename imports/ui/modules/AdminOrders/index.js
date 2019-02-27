@@ -20,10 +20,6 @@ class AdminOrders extends Component {
     this.props.unsubscribeOrders();
   }
 
-  makeOrder = () => {
-
-  };
-
   deleteOrder = order => e => {
     this.props.deleteOrdersItem(order._id);
   };
@@ -80,7 +76,6 @@ class AdminOrders extends Component {
                           </tbody>
                         </table>
                         <div>
-                          <button className="btn order" onClick={this.makeOrder}>Order</button>
                           <button className="btn order" onClick={this.deleteOrder(order)}>Delete Order</button>
                         </div>
                       </div>

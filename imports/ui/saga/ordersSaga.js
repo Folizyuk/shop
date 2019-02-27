@@ -1,23 +1,19 @@
 import { Meteor } from 'meteor/meteor';
-import { takeLatest, call, put, takeEvery } from 'redux-saga/effects';
+import { takeLatest, call, put, all } from 'redux-saga/effects';
 import * as types from './../actions/actionTypes';
 import { showModal } from './../actions/modalsCreators';
 import {
   addOrderItem,
-  removeOrderItem
+  removeOrderItem,
+  removeCartItem
 } from './../api';
-import { deleteCartItem } from '../actions/cartCreators';
 
 function* addOrder(action) {
-  const { order } = action.payload;
-  console.log(order)
+  const { order, cartItems } = action.payload;
 
   const { response, error } = yield call(addOrderItem, order);
-  console.log('response', response)
   if (response) {
-    order.products.forEach(product => {
-      //yield takeEvery(deleteCartItem(product.productId));
-    });
+    yield all(cartItems.map(item => call(removeCartItem, item._id._str)));
   } else {
     if (error && error.error === "not-authorized") {
       yield put(showModal(types.MODAL_TYPE_ALERT, { text: 'Please authorize to buy product' }));
